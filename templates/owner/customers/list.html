@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Customers | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Customers
+                </h1>
+
+                <p>
+                    View and manage customers who have booked services.
+                </p>
+            </div>
+
+            <div>
+                <a
+                    href="{% url 'owner:dashboard' %}"
+                    class="dashboard-action"
+                >
+                    Back to Dashboard
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="dashboard-section">
+
+            <form method="get" class="dashboard-search">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search_query }}"
+                    placeholder="Search by name, phone or email..."
+                >
+
+                <button
+                    type="submit"
+                    class="dashboard-action confirm"
+                >
+                    Search
+                </button>
+
+                {% if search_query %}
+
+                    <a
+                        href="{% url 'owner:customers_list' %}"
+                        class="dashboard-action"
+                    >
+                        Clear
+                    </a>
+
+                {% endif %}
+
+            </form>
+
+        </div>
+
+
+        <!-- CUSTOMERS -->
+
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Customer Management
+                    </span>
+
+                    <h2>
+                        All Customers
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            {% if customers %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Customer</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Appointments</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for customer in customers %}
+
+                                <tr>
+
+                                    <!-- CUSTOMER -->
+
+                                    <td>
+
+                                        <strong>
+                                            {{ customer.full_name }}
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- PHONE -->
+
+                                    <td>
+                                        {{ customer.phone }}
+                                    </td>
+
+
+                                    <!-- EMAIL -->
+
+                                    <td>
+
+                                        {% if customer.email %}
+                                            {{ customer.email }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- APPOINTMENTS -->
+
+                                    <td>
+                                        {{ customer.appointments.count }}
+                                    </td>
+
+
+                                    <!-- CREATED -->
+
+                                    <td>
+                                        {{ customer.created_at|date:"M d, Y" }}
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+
+                                    <td>
+
+                                        <div class="appointment-actions">
+
+                                            <a
+                                                href="{% url 'owner:customer_detail' customer.pk %}"
+                                                class="dashboard-action"
+                                            >
+                                                View
+                                            </a>
+
+
+                                            {% if customer.whatsapp_number %}
+
+                                                <a
+                                                    href="https://wa.me/{{ customer.whatsapp_number }}"
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                    class="dashboard-action whatsapp"
+                                                >
+                                                    WhatsApp
+                                                </a>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No customers found
+                    </h3>
+
+                    {% if search_query %}
+
+                        <p>
+                            No customers matched "{{ search_query }}".
+                        </p>
+
+                        <a
+                            href="{% url 'owner:customers_list' %}"
+                            class="dashboard-action"
+                        >
+                            View All Customers
+                        </a>
+
+                    {% else %}
+
+                        <p>
+                            Customers will appear here after they book
+                            an appointment.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

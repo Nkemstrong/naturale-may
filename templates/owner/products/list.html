@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Products | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Products
+                </h1>
+
+                <p>
+                    Manage the products available in your Naturale May store.
+                </p>
+            </div>
+
+            <div>
+
+                <a
+                    href="{% url 'owner:category_create' %}"
+                    class="dashboard-action"
+                >
+                    Manage Categories
+                </a>
+
+                <a
+                    href="{% url 'owner:product_create' %}"
+                    class="dashboard-action confirm"
+                >
+                    + Add Product
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+        {% if messages %}
+
+            <div class="dashboard-messages">
+
+                {% for message in messages %}
+
+                    <div class="dashboard-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- PRODUCTS -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Product Management
+                    </span>
+
+                    <h2>
+                        All Products
+                    </h2>
+
+                    <p>
+                        Add, edit, manage stock, feature, or remove products.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if products %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Product</th>
+
+                                <th>Category</th>
+
+                                <th>Price</th>
+
+                                <th>Stock</th>
+
+                                <th>Status</th>
+
+                                <th>Featured</th>
+
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for product in products %}
+
+                                <tr>
+
+                                    <!-- PRODUCT -->
+                                    <td>
+
+                                        <div class="product-table-info">
+
+                                            {% if product.main_image %}
+
+                                                <img
+                                                    src="{{ product.main_image.url }}"
+                                                    alt="{{ product.name }}"
+                                                    class="product-table-image"
+                                                >
+
+                                            {% endif %}
+
+                                            <div>
+
+                                                <strong>
+                                                    {{ product.name }}
+                                                </strong>
+
+                                                {% if product.short_description %}
+
+                                                    <small>
+                                                        {{ product.short_description }}
+                                                    </small>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- CATEGORY -->
+                                    <td>
+
+                                        {{ product.category.name }}
+
+                                    </td>
+
+
+                                    <!-- PRICE -->
+                                    <td>
+
+                                        ₦{{ product.price|floatformat:2 }}
+
+                                    </td>
+
+
+                                    <!-- STOCK -->
+                                    <td>
+
+                                        {% if product.stock_status == "in_stock" %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                In Stock
+                                            </span>
+
+                                        {% elif product.stock_status == "out_of_stock" %}
+
+                                            <span class="appointment-status status-cancelled">
+                                                Out of Stock
+                                            </span>
+
+                                        {% elif product.stock_status == "coming_soon" %}
+
+                                            <span class="appointment-status">
+                                                Coming Soon
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+                                    <td>
+
+                                        {% if product.is_active %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="appointment-status status-cancelled">
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- FEATURED -->
+                                    <td>
+
+                                        {% if product.is_featured %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Featured
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="action-muted">
+                                                Not Featured
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+                                    <td>
+
+                                        <div class="appointment-actions">
+
+                                            <!-- EDIT -->
+                                            <a
+                                                href="{% url 'owner:product_edit' product.pk %}"
+                                                class="dashboard-action"
+                                            >
+                                                Edit
+                                            </a>
+
+                                            <!-- GALLERY -->
+                                            <a
+                                                href="{% url 'owner:product_gallery' product.pk %}"
+                                                class="dashboard-action"
+                                            >
+                                                Gallery
+                                            </a>
+
+
+                                            <!-- ACTIVATE / DEACTIVATE -->
+                                            <form
+                                                method="post"
+                                                action="{% url 'owner:product_toggle' product.pk %}"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <button
+                                                    type="submit"
+                                                    class="dashboard-action {% if product.is_active %}cancel{% else %}confirm{% endif %}"
+                                                >
+
+                                                    {% if product.is_active %}
+                                                        Deactivate
+                                                    {% else %}
+                                                        Activate
+                                                    {% endif %}
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- FEATURE -->
+                                            <form
+                                                method="post"
+                                                action="{% url 'owner:product_feature_toggle' product.pk %}"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <button
+                                                    type="submit"
+                                                    class="dashboard-action confirm"
+                                                >
+
+                                                    {% if product.is_featured %}
+                                                        Unfeature
+                                                    {% else %}
+                                                        Feature
+                                                    {% endif %}
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- DELETE -->
+                                            <a
+                                                href="{% url 'owner:product_delete' product.pk %}"
+                                                class="dashboard-action cancel"
+                                            >
+                                                Delete
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <!-- EMPTY STATE -->
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No products yet
+                    </h3>
+
+                    <p>
+                        Add your first product to start building your Naturale May store.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:product_create' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Add Product
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

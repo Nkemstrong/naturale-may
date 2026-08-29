@@ -1,0 +1,272 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="{% block meta_description %}Naturale May — Restoring Confidence Through Nature. Naturale hair care products, treatments, braiding and professional hair services.{% endblock %}"
+    >
+
+    <meta name="theme-color" content="#3f5f3a">
+
+    <title>
+        {% block title %}
+            Naturale May | Restoring Confidence Through Nature
+        {% endblock %}
+    </title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="site-header">
+
+        <div class="container navbar">
+
+            <a
+                href="{% url 'core:home' %}"
+                class="brand"
+                aria-label="Naturale May Home"
+            >
+
+                <img
+                    src="{% static 'images/logo.png' %}"
+                    alt="Naturale May logo"
+                    class="brand-logo"
+                >
+
+            </a>
+
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                type="button"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+
+            <nav
+                class="main-nav"
+                id="mainNav"
+                aria-label="Main navigation"
+            >
+
+                <a href="{% url 'core:home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'products:shop' %}">
+                    Shop
+                </a>
+
+                <a href="{% url 'services:list' %}">
+                    Services
+                </a>
+
+                <a href="{% url 'core:about' %}">
+                    About
+                </a>
+
+                <a
+                    href="{% url 'appointments:book' %}"
+                    class="nav-cta"
+                >
+                    Book Appointment
+                </a>
+
+                <a href="{% url 'contact:contact' %}">
+                    Contact
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+
+                    <a
+                        href="{% url 'core:home' %}"
+                        class="brand"
+                    >
+
+                        <img
+                            src="{% static 'images/logo.png' %}"
+                            alt="Naturale May logo"
+                            class="brand-logo"
+                        >
+
+                    </a>
+
+                    <p>
+                        Restoring Confidence Through Nature.
+                    </p>
+
+                </div>
+
+
+                <div class="footer-links">
+
+                    <h3>Explore</h3>
+
+                    <a href="{% url 'core:home' %}">
+                        Home
+                    </a>
+
+                    <a href="{% url 'products:shop' %}">
+                        Shop
+                    </a>
+
+                    <a href="{% url 'services:list' %}">
+                        Services
+                    </a>
+
+                    <a href="{% url 'contact:contact' %}">
+                        Contact
+                    </a>
+
+                </div>
+
+
+                <div class="footer-links">
+
+                    <h3>Services</h3>
+
+                    <a href="{% url 'services:list' %}">
+                        Hair Care
+                    </a>
+
+                    <a href="{% url 'services:list' %}">
+                        Braiding
+                    </a>
+
+                    <a href="{% url 'services:list' %}">
+                        Hair Treatments
+                    </a>
+
+                    <a href="{% url 'appointments:book' %}">
+                        Book Appointment
+                    </a>
+
+                </div>
+
+
+                <div class="footer-contact">
+
+                    <h3>Naturale May</h3>
+
+                    <p>
+                        Restoring confidence through nature,
+                        one healthy strand at a time.
+                    </p>
+
+                    <a
+                        href="{% url 'contact:contact' %}"
+                        class="footer-contact-link"
+                    >
+                        Get in touch →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <p>
+                    &copy;
+                    {% now "Y" %}
+                    Naturale May.
+                    All rights reserved.
+                </p>
+
+                <p>
+                    Natural hair. Natural confidence.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+
+</html>

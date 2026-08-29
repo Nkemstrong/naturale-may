@@ -1,0 +1,331 @@
+  
+{% extends "base.html" %}
+
+{% block title %}
+    {{ customer.full_name }} | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Customer Profile
+                </span>
+
+                <h1>
+                    {{ customer.full_name }}
+                </h1>
+
+                <p>
+                    Customer information and appointment history.
+                </p>
+            </div>
+
+            <div>
+
+                <a
+                    href="{% url 'owner:customers_list' %}"
+                    class="dashboard-action"
+                >
+                    Back to Customers
+                </a>
+
+                {% if customer.whatsapp_number %}
+
+                    <a
+                        href="https://wa.me/{{ customer.whatsapp_number }}"
+                        target="_blank"
+                        rel="noopener"
+                        class="dashboard-action whatsapp"
+                    >
+                        WhatsApp Customer
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- CUSTOMER INFORMATION -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Customer Information
+                    </span>
+
+                    <h2>
+                        Contact Details
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Full Name
+                    </span>
+
+                    <h3>
+                        {{ customer.full_name }}
+                    </h3>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Phone
+                    </span>
+
+                    <h3>
+                        {{ customer.phone }}
+                    </h3>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Email
+                    </span>
+
+                    <h3>
+
+                        {% if customer.email %}
+                            {{ customer.email }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </h3>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Customer Since
+                    </span>
+
+                    <h3>
+                        {{ customer.created_at|date:"M d, Y" }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CUSTOMER ACTIVITY -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Customer Activity
+                    </span>
+
+                    <h2>
+                        Appointment History
+                    </h2>
+
+                    <p>
+                        View all appointments associated with this customer.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPOINTMENT SUMMARY -->
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Total Appointments
+                    </span>
+
+                    <h3>
+                        {{ appointments|length }}
+                    </h3>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Pending
+                    </span>
+
+                    <h3>
+                        {{ pending_count }}
+                    </h3>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Confirmed
+                    </span>
+
+                    <h3>
+                        {{ confirmed_count }}
+                    </h3>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <span class="section-label">
+                        Completed
+                    </span>
+
+                    <h3>
+                        {{ completed_count }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPOINTMENTS TABLE -->
+            {% if appointments %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Service</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for appointment in appointments %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ appointment.service.name }}
+                                        </strong>
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ appointment.appointment_date|date:"M d, Y" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ appointment.appointment_time|time:"g:i A" }}
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if appointment.status == "pending" %}
+
+                                            <span class="appointment-status">
+                                                Pending
+                                            </span>
+
+                                        {% elif appointment.status == "confirmed" %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Confirmed
+                                            </span>
+
+                                        {% elif appointment.status == "completed" %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Completed
+                                            </span>
+
+                                        {% elif appointment.status == "cancelled" %}
+
+                                            <span class="appointment-status status-cancelled">
+                                                Cancelled
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No appointments
+                    </h3>
+
+                    <p>
+                        This customer has not made any appointments yet.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+                

@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <div>
+
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+                    {% if product %}
+                        Update the information for this product.
+                    {% else %}
+                        Add a new product to your Naturale May store.
+                    {% endif %}
+                </p>
+
+            </div>
+
+            <div>
+
+                <a
+                    href="{% url 'owner:products_list' %}"
+                    class="dashboard-action"
+                >
+                    ← Back to Products
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Product Management
+                    </span>
+
+                    <h2>
+                        Product Information
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="post"
+                enctype="multipart/form-data"
+                class="owner-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- FORM ERRORS -->
+                {% if form.non_field_errors %}
+
+                    <div class="dashboard-messages">
+
+                        {% for error in form.non_field_errors %}
+
+                            <div class="dashboard-message">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- CATEGORY -->
+                <div class="form-group">
+
+                    <label for="{{ form.category.id_for_label }}">
+                        Category
+                    </label>
+
+                    {{ form.category }}
+
+                    {% if form.category.errors %}
+
+                        <div class="form-error">
+                            {{ form.category.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        Product Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+
+                        <div class="form-error">
+                            {{ form.name.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SLUG -->
+                <div class="form-group">
+
+                    <label for="{{ form.slug.id_for_label }}">
+                        Slug
+                    </label>
+
+                    {{ form.slug }}
+
+                    <small>
+                        Example: natural-hair-growth-oil
+                    </small>
+
+                    {% if form.slug.errors %}
+
+                        <div class="form-error">
+                            {{ form.slug.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SHORT DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="{{ form.short_description.id_for_label }}">
+                        Short Description
+                    </label>
+
+                    {{ form.short_description }}
+
+                    {% if form.short_description.errors %}
+
+                        <div class="form-error">
+                            {{ form.short_description.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% if form.description.errors %}
+
+                        <div class="form-error">
+                            {{ form.description.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="form-group">
+
+                    <label for="{{ form.price.id_for_label }}">
+                        Price (₦)
+                    </label>
+
+                    {{ form.price }}
+
+                    {% if form.price.errors %}
+
+                        <div class="form-error">
+                            {{ form.price.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- STOCK STATUS -->
+                <div class="form-group">
+
+                    <label for="{{ form.stock_status.id_for_label }}">
+                        Stock Status
+                    </label>
+
+                    {{ form.stock_status }}
+
+                    {% if form.stock_status.errors %}
+
+                        <div class="form-error">
+                            {{ form.stock_status.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- INGREDIENTS -->
+                <div class="form-group">
+
+                    <label for="{{ form.ingredients.id_for_label }}">
+                        Ingredients
+                    </label>
+
+                    {{ form.ingredients }}
+
+                    {% if form.ingredients.errors %}
+
+                        <div class="form-error">
+                            {{ form.ingredients.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BENEFITS -->
+                <div class="form-group">
+
+                    <label for="{{ form.benefits.id_for_label }}">
+                        Benefits
+                    </label>
+
+                    {{ form.benefits }}
+
+                    {% if form.benefits.errors %}
+
+                        <div class="form-error">
+                            {{ form.benefits.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- USAGE -->
+                <div class="form-group">
+
+                    <label for="{{ form.usage_instructions.id_for_label }}">
+                        Usage Instructions
+                    </label>
+
+                    {{ form.usage_instructions }}
+
+                    {% if form.usage_instructions.errors %}
+
+                        <div class="form-error">
+                            {{ form.usage_instructions.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- MAIN IMAGE -->
+                <div class="form-group">
+
+                    <label for="{{ form.main_image.id_for_label }}">
+                        Main Product Image
+                    </label>
+
+                    {{ form.main_image }}
+
+                    {% if product and product.main_image %}
+
+                        <div class="current-image">
+
+                            <p>
+                                Current Image:
+                            </p>
+
+                            <img
+                                src="{{ product.main_image.url }}"
+                                alt="{{ product.name }}"
+                                style="max-width: 220px;"
+                            >
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if form.main_image.errors %}
+
+                        <div class="form-error">
+                            {{ form.main_image.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- FEATURED -->
+                <div class="form-checkbox">
+
+                    {{ form.is_featured }}
+
+                    <label for="{{ form.is_featured.id_for_label }}">
+                        Feature this product
+                    </label>
+
+                </div>
+
+
+                <!-- ACTIVE -->
+                <div class="form-checkbox">
+
+                    {{ form.is_active }}
+
+                    <label for="{{ form.is_active.id_for_label }}">
+                        Product is active
+                    </label>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'owner:products_list' %}"
+                        class="dashboard-action"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="dashboard-action confirm"
+                    >
+                        {{ submit_text }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

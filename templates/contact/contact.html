@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Contact | Naturale May
+{% endblock %}
+
+{% block meta_description %}
+    Get in touch with Naturale May for healthy hair care, treatments,
+    styling, loc services, products and consultations.
+{% endblock %}
+
+{% block content %}
+
+<section class="contact-page">
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="contact-header">
+
+            <span class="section-label">
+                Get In Touch
+            </span>
+
+            <h1>
+                We'd Love to Hear From You
+            </h1>
+
+            <p>
+                Have a question about your hair, our products or
+                our services? Reach out to Naturale May and we'll
+                be happy to help.
+            </p>
+
+        </div>
+
+
+        <!-- CONTACT INFORMATION -->
+
+        <div class="contact-grid">
+
+            <!-- PHONE -->
+
+            <div class="contact-card">
+
+                <span class="contact-icon">☎</span>
+
+                <h3>
+                    Call Us
+                </h3>
+
+                <p>
+                    Speak directly with Naturale May.
+                </p>
+
+                <a href="tel:07037305041">
+                    07037305041
+                </a>
+
+            </div>
+
+
+            <!-- WHATSAPP -->
+
+            <div class="contact-card">
+
+                <span class="contact-icon">💬</span>
+
+                <h3>
+                    WhatsApp
+                </h3>
+
+                <p>
+                    Send us a message on WhatsApp.
+                </p>
+
+                <a
+                    href="https://wa.me/2347037305041"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Chat on WhatsApp
+                </a>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="contact-card">
+
+                <span class="contact-icon">✉</span>
+
+                <h3>
+                    Email Us
+                </h3>
+
+                <p>
+                    Send us an enquiry or question.
+                </p>
+
+                <a href="mailto:kinkstribe@gmail.com">
+                    kinkstribe@gmail.com
+                </a>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="contact-card">
+
+                <span class="contact-icon">📍</span>
+
+                <h3>
+                    Visit Us
+                </h3>
+
+                <p>
+                    Find us at 46 Aba-Owerri Road,<br>
+                    close to Brass Junction,<br>
+                    Aba, Abia State, Nigeria.
+                </p>
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=46+Aba-Owerri+Road%2C+close+to+Brass+Junction%2C+Aba%2C+Abia%2C+Nigeria"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Get Directions
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN CONTACT SECTION -->
+
+        <div class="contact-layout">
+
+
+            <!-- CONTACT FORM -->
+
+            <div class="contact-form-wrapper">
+
+                <span class="section-label">
+                    Send a Message
+                </span>
+
+                <h2>
+                    How Can We Help?
+                </h2>
+
+                <p>
+                    Fill out the form below and we'll get back
+                    to you as soon as possible.
+                </p>
+
+
+                <form
+                    method="post"
+                    class="contact-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-error">
+                            {{ form.non_field_errors }}
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.name.id_for_label }}">
+                            Full Name
+                        </label>
+
+                        {{ form.name }}
+
+                        {% for error in form.name.errors %}
+
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- EMAIL + PHONE -->
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="{{ form.email.id_for_label }}">
+                                Email Address
+                            </label>
+
+                            {{ form.email }}
+
+                            {% for error in form.email.errors %}
+
+                                <small class="field-error">
+                                    {{ error }}
+                                </small>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="{{ form.phone.id_for_label }}">
+                                Phone Number
+                            </label>
+
+                            {{ form.phone }}
+
+                            {% for error in form.phone.errors %}
+
+                                <small class="field-error">
+                                    {{ error }}
+                                </small>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.subject.id_for_label }}">
+                            Subject
+                        </label>
+
+                        {{ form.subject }}
+
+                        {% for error in form.subject.errors %}
+
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.message.id_for_label }}">
+                            Message
+                        </label>
+
+                        {{ form.message }}
+
+                        {% for error in form.message.errors %}
+
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Send Message
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- BUSINESS INFORMATION -->
+
+            <aside class="contact-info">
+
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h2>
+                    Healthy Hair.
+                    Confident You.
+                </h2>
+
+                <p>
+                    Naturale May is dedicated to helping you
+                    understand, care for and confidently style
+                    your hair.
+                </p>
+
+
+                <!-- OPENING HOURS -->
+
+                <div class="contact-info-item">
+
+                    <strong>
+                        Opening Hours
+                    </strong>
+
+                    <p>
+                        Monday – Saturday<br>
+                        8:30 AM – 6:00 PM
+                    </p>
+
+                </div>
+
+
+                <!-- SERVICES -->
+
+                <div class="contact-info-item">
+
+                    <strong>
+                        Our Services
+                    </strong>
+
+                    <p>
+                        Hair consultation, scalp analysis,
+                        hair treatments, styling, loc services,
+                        healthy hair products and training.
+                    </p>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="contact-info-item">
+
+                    <strong>
+                        Visit Our Location
+                    </strong>
+
+                    <p>
+                        46 Aba-Owerri Road,<br>
+                        close to Brass Junction,<br>
+                        Aba, Abia State, Nigeria.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{% url 'appointments:book' %}"
+                    class="btn btn-secondary"
+                >
+                    Book an Appointment
+                </a>
+
+            </aside>
+
+        </div>
+
+
+        <!-- LOCATION / MAP -->
+
+        <div class="contact-map">
+
+            <span class="section-label">
+                Find Us
+            </span>
+
+            <h2>
+                Visit Naturale May
+            </h2>
+
+            <p>
+                Find us at 46 Aba-Owerri Road, close to Brass Junction,
+                Aba, Abia State, Nigeria.
+            </p>
+
+
+            <div class="location-actions">
+
+                <!-- GOOGLE MAPS -->
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=46+Aba-Owerri+Road%2C+close+to+Brass+Junction%2C+Aba%2C+Abia%2C+Nigeria"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary"
+                >
+                    📍 View Naturale May on Google Maps
+                </a>
+
+
+                <!-- DIRECTIONS -->
+
+                <a
+                    href="https://www.google.com/maps/dir/?api=1&destination=46+Aba-Owerri+Road%2C+close+to+Brass+Junction%2C+Aba%2C+Abia%2C+Nigeria"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-secondary"
+                >
+                    Get Directions
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,316 @@
+ {% extends "base.html" %}
+
+{% block title %}
+    Messages | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Customer Messages
+                </h1>
+
+                <p>
+                    Read and manage messages sent by your customers.
+                </p>
+            </div>
+
+            <div>
+                <span class="appointment-status status-confirmed">
+                    {{ unread_count }} Unread
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+        {% if messages %}
+
+            <div class="dashboard-messages">
+
+                {% for message in messages %}
+
+                    <div class="dashboard-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- SEARCH -->
+        <div class="dashboard-section">
+
+            <form method="get" class="dashboard-filter-form">
+
+                <div class="dashboard-filter-group">
+
+                    <label for="message-search">
+                        Search Messages
+                    </label>
+
+                    <input
+                        id="message-search"
+                        type="search"
+                        name="search"
+                        value="{{ search_query }}"
+                        placeholder="Search name, email, subject or message..."
+                    >
+
+                </div>
+
+                <div class="dashboard-filter-actions">
+
+                    <button
+                        type="submit"
+                        class="dashboard-action confirm"
+                    >
+                        Search
+                    </button>
+
+                    {% if search_query %}
+
+                        <a
+                            href="{% url 'owner:messages_list' %}"
+                            class="dashboard-action"
+                        >
+                            Clear
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- MESSAGE LIST -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Customer Communication
+                    </span>
+
+                    <h2>
+                        All Messages
+                    </h2>
+
+                    <p>
+                        Review enquiries and messages from Naturale May customers.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if messages %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Customer</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for contact_message in messages %}
+
+                                <tr>
+
+                                    <!-- CUSTOMER -->
+                                    <td>
+
+                                        <strong>
+                                            {{ contact_message.name }}
+                                        </strong>
+
+                                        <small>
+                                            {{ contact_message.email }}
+                                        </small>
+
+                                        {% if contact_message.phone %}
+
+                                            <small>
+                                                {{ contact_message.phone }}
+                                            </small>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- SUBJECT -->
+                                    <td>
+
+                                        {% if contact_message.subject %}
+
+                                            {{ contact_message.subject }}
+
+                                        {% else %}
+
+                                            General Enquiry
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- MESSAGE -->
+                                    <td>
+
+                                        <span class="appointment-notes">
+                                            {{ contact_message.message|truncatechars:80 }}
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- DATE -->
+                                    <td>
+
+                                        {{ contact_message.created_at|date:"M j, Y" }}
+
+                                        <small>
+                                            {{ contact_message.created_at|time:"g:i A" }}
+                                        </small>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+                                    <td>
+
+                                        {% if contact_message.is_read %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Read
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="appointment-status status-pending">
+                                                Unread
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+                                    <td>
+
+                                        <div class="appointment-actions">
+
+                                            <!-- VIEW -->
+                                            <a
+                                                href="{% url 'owner:message_detail' contact_message.pk %}"
+                                                class="dashboard-action"
+                                            >
+                                                View
+                                            </a>
+
+
+                                            <!-- READ / UNREAD -->
+                                            <form
+                                                method="post"
+                                                action="{% url 'owner:message_toggle_read' contact_message.pk %}"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <button
+                                                    type="submit"
+                                                    class="dashboard-action {% if contact_message.is_read %}cancel{% else %}confirm{% endif %}"
+                                                >
+
+                                                    {% if contact_message.is_read %}
+                                                        Mark Unread
+                                                    {% else %}
+                                                        Mark Read
+                                                    {% endif %}
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- DELETE -->
+                                            <a
+                                                href="{% url 'owner:message_delete' contact_message.pk %}"
+                                                class="dashboard-action cancel"
+                                            >
+                                                Delete
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No messages yet
+                    </h3>
+
+                    <p>
+                        Customer messages will appear here when someone contacts Naturale May.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

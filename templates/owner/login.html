@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Owner Login | Naturale May
+{% endblock %}
+
+{% block meta_description %}
+    Naturale May owner login.
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-card">
+
+            <div class="auth-brand">
+
+                {% load static %}
+
+                <img
+                    src="{% static 'images/logo.png' %}"
+                    alt="Naturale May"
+                    class="auth-logo"
+                >
+
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Owner Login
+                </h1>
+
+                <p>
+                    Sign in to manage your appointments,
+                    services and business information.
+                </p>
+
+            </div>
+
+
+            {% if error %}
+
+                <div class="auth-error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                class="auth-form"
+            >
+
+                {% csrf_token %}
+
+
+                <div class="auth-field">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="dashboard-action confirm auth-submit"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="auth-footer">
+
+                <a href="{% url 'core:home' %}">
+                    ← Back to Naturale May
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

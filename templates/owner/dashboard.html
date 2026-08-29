@@ -1,0 +1,1139 @@
+{% extends "base.html" %}
+
+{% block title %}
+Owner Dashboard | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- =========================
+             DASHBOARD HEADER
+        ========================== -->
+        <nav
+            class="dashboard-nav"
+            aria-label="Owner dashboard navigation"
+        >
+
+            <a
+                href="{% url 'owner:dashboard' %}"
+                class="dashboard-nav-link active"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="{% url 'owner:customers_list' %}"
+                class="dashboard-nav-link"
+            >
+                Customers
+            </a>
+
+            <a
+                href="{% url 'owner:messages_list' %}"
+                class="dashboard-nav-link"
+            >
+                Messages
+            </a>
+
+            <a
+                href="{% url 'owner:services_list' %}"
+                class="dashboard-nav-link"
+            >
+                Services
+            </a>
+
+            <a
+                href="{% url 'owner:products_list' %}"
+                class="dashboard-nav-link"
+            >
+                Products
+            </a>
+
+            <form
+                method="post"
+                action="{% url 'owner:logout' %}"
+                class="dashboard-logout-form"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="dashboard-nav-link dashboard-logout"
+                >
+                    Logout
+                </button>
+
+            </form>
+
+        </nav>
+
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Owner Dashboard
+                </h1>
+            <div class="dashboard-user">
+
+                <span class="dashboard-user-label">
+                    Signed in as
+                </span>
+
+                <strong>
+                    {{ request.user.get_full_name|default:request.user.username }}
+                </strong>
+
+            </div>
+
+                <p>
+                    Welcome back. Manage your appointments and keep
+                    track of your Naturale May business from here.
+                </p>
+            </div>
+
+            <div class="dashboard-header-actions">
+                <form
+                    method="post"
+                    action="{% url 'owner:logout' %}"
+                    class="logout-form" 
+                >
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="dashboard-action cancel"
+                    >
+                        Logout
+                    </button>
+                </form>
+                <a
+                    href="{% url 'owner:messages_list' %}"
+                    class="dashboard-action"
+                >
+                    Messages
+                </a>
+
+                <a
+                    href="{% url 'owner:services_list' %}"
+                    class="dashboard-action"
+                >
+                    Services
+                </a>
+
+                <a
+                    href="{% url 'owner:products_list' %}"
+                    class="dashboard-action confirm"
+                >
+                    Products
+                </a>
+
+                <a
+                    href="{% url 'owner:customers_list' %}"
+                    class="dashboard-action"
+                >
+                    Customers
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+             OVERVIEW
+        ========================== -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+                    <span class="section-label">
+                        Overview
+                    </span>
+
+                    <h2>
+                        Business Overview
+                    </h2>
+
+                    <p>
+                        A quick look at your appointment activity.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stats">
+
+                <!-- TODAY -->
+                <div class="dashboard-stat">
+                    <span>Today's Appointments</span>
+                    <strong>{{ today_count }}</strong>
+                </div>
+
+
+                <!-- PENDING -->
+                <div class="dashboard-stat">
+                    <span>Pending Bookings</span>
+                    <strong>{{ pending_count }}</strong>
+                </div>
+
+
+                <!-- CONFIRMED -->
+                <div class="dashboard-stat">
+                    <span>Confirmed Bookings</span>
+                    <strong>{{ confirmed_count }}</strong>
+                </div>
+
+
+                <!-- COMPLETED -->
+                <div class="dashboard-stat">
+                    <span>Completed</span>
+                    <strong>{{ completed_count }}</strong>
+                </div>
+
+
+                <!-- CANCELLED -->
+                <div class="dashboard-stat">
+                    <span>Cancelled</span>
+                    <strong>{{ cancelled_count }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+     BUSINESS INSIGHTS
+========================== -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Insights
+                    </span>
+
+                    <h2>
+                        Business Insights
+                    </h2>
+
+                    <p>
+                        A quick overview of your Naturale May business activity.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-stats">
+
+                <!-- CUSTOMERS -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        Total Customers
+                    </span>
+
+                    <strong>
+                        {{ total_customers }}
+                    </strong>
+
+                </div>
+
+
+                <!-- PRODUCTS -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        Products
+                    </span>
+
+                    <strong>
+                        {{ total_products }}
+                    </strong>
+
+                </div>
+
+
+                <!-- SERVICES -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        Services
+                    </span>
+
+                    <strong>
+                        {{ total_services }}
+                    </strong>
+
+                </div>
+
+
+                <!-- APPOINTMENTS -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        Total Appointments
+                    </span>
+
+                    <strong>
+                        {{ total_appointments }}
+                    </strong>
+
+                </div>
+
+
+                <!-- THIS MONTH -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        This Month
+                    </span>
+
+                    <strong>
+                        {{ this_month_appointments }}
+                    </strong>
+
+                </div>
+
+
+                <!-- MESSAGES -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        Total Messages
+                    </span>
+
+                    <strong>
+                        {{ total_messages }}
+                    </strong>
+
+                </div>
+
+
+                <!-- UNREAD -->
+                <div class="dashboard-stat">
+
+                    <span>
+                        Unread Messages
+                    </span>
+
+                    <strong>
+                        {{ unread_messages }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- POPULAR SERVICE -->
+
+            <div class="dashboard-card" style="margin-top: 24px;">
+
+                <span class="section-label">
+                    Most Booked Service
+                </span>
+
+                {% if popular_service and popular_service.booking_count > 0 %}
+
+                    <h3>
+                        {{ popular_service.name }}
+                    </h3>
+
+                    <p>
+                        {{ popular_service.booking_count }}
+                        booking{{ popular_service.booking_count|pluralize }}
+                        so far.
+                    </p>
+
+                {% else %}
+
+                    <h3>
+                        No bookings yet
+                    </h3>
+
+                    <p>
+                        Your most popular service will appear here once customers
+                        begin making appointments.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TODAY'S APPOINTMENTS
+        ========================== -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+                    <span class="section-label">
+                        Today
+                    </span>
+
+                    <h2>
+                        Today's Appointments
+                    </h2>
+
+                    <p>
+                        Appointments scheduled for today.
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% if today_appointments %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Customer</th>
+                                <th>Service</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for appointment in today_appointments %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ appointment.customer.full_name }}
+                                        </strong>
+
+                                        <small>
+                                            {{ appointment.customer.phone }}
+                                        </small>
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ appointment.service.name }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ appointment.appointment_time|time:"g:i A" }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <span
+                                            class="appointment-status status-{{ appointment.status }}"
+                                        >
+                                            {{ appointment.get_status_display }}
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No appointments today
+                    </h3>
+
+                    <p>
+                        There are no active appointments scheduled for today.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             APPOINTMENT MANAGEMENT
+        ========================== -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Bookings
+                    </span>
+
+                    <h2>
+                        Appointment Management
+                    </h2>
+
+                    <p>
+                        Search, filter and manage customer appointments.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SEARCH & FILTERS
+            ========================== -->
+
+            <form
+                method="get"
+                class="dashboard-filters"
+            >
+
+                <!-- SEARCH -->
+
+                <div class="dashboard-filter-field">
+
+                    <label for="search">
+                        Search
+                    </label>
+
+                    <input
+                        type="search"
+                        id="search"
+                        name="search"
+                        value="{{ search_query }}"
+                        placeholder="Customer, phone, email or service..."
+                    >
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="dashboard-filter-field">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                    >
+
+                        <option value="">
+                            All statuses
+                        </option>
+
+                        <option
+                            value="pending"
+                            {% if status_filter == "pending" %}selected{% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="confirmed"
+                            {% if status_filter == "confirmed" %}selected{% endif %}
+                        >
+                            Confirmed
+                        </option>
+
+                        <option
+                            value="completed"
+                            {% if status_filter == "completed" %}selected{% endif %}
+                        >
+                            Completed
+                        </option>
+
+                        <option
+                            value="cancelled"
+                            {% if status_filter == "cancelled" %}selected{% endif %}
+                        >
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="dashboard-filter-field">
+
+                    <label for="date">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        value="{{ date_filter }}"
+                    >
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="dashboard-filter-actions">
+
+                    <button
+                        type="submit"
+                        class="dashboard-filter-button"
+                    >
+                        Search
+                    </button>
+
+                    <a
+                        href="{% url 'owner:dashboard' %}"
+                        class="dashboard-clear-button"
+                    >
+                        Clear
+                    </a>
+
+                </div>
+
+            </form>
+
+
+            <!-- =========================
+                 APPOINTMENT TABLE
+            ========================== -->
+
+            {% if appointments %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Service
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Notes
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for appointment in appointments %}
+
+                                <tr>
+
+                                    <!-- CUSTOMER -->
+
+                                    <td>
+
+                                        <strong>
+                                            {{ appointment.customer.full_name }}
+                                        </strong>
+
+                                        <small>
+                                            {{ appointment.customer.phone }}
+                                        </small>
+
+                                        {% if appointment.customer.email %}
+
+                                            <small>
+                                                {{ appointment.customer.email }}
+                                            </small>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- SERVICE -->
+
+                                    <td>
+
+                                        <strong>
+                                            {{ appointment.service.name }}
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        {{ appointment.appointment_date|date:"M j, Y" }}
+
+                                    </td>
+
+
+                                    <!-- TIME -->
+
+                                    <td>
+
+                                        {{ appointment.appointment_time|time:"g:i A" }}
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        <span
+                                            class="appointment-status status-{{ appointment.status }}"
+                                        >
+                                            {{ appointment.get_status_display }}
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- NOTES -->
+
+                                    <td>
+
+                                        {% if appointment.notes %}
+
+                                            <span class="appointment-notes">
+                                                {{ appointment.notes }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="action-muted">
+                                                No notes
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+
+                                    <td>
+
+                                        <div class="appointment-actions">
+
+
+                                            <!-- PENDING -->
+
+                                            {% if appointment.status == "pending" %}
+
+                                                <form
+                                                    method="post"
+                                                    action="{% url 'owner:appointment_status' appointment.pk %}"
+                                                >
+
+                                                    {% csrf_token %}
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="status"
+                                                        value="confirmed"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="dashboard-action confirm"
+                                                    >
+                                                        Confirm
+                                                    </button>
+
+                                                </form>
+
+
+                                                <form
+                                                    method="post"
+                                                    action="{% url 'owner:appointment_status' appointment.pk %}"
+                                                >
+
+                                                    {% csrf_token %}
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="status"
+                                                        value="cancelled"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="dashboard-action cancel"
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                </form>
+
+
+                                            <!-- CONFIRMED -->
+
+                                            {% elif appointment.status == "confirmed" %}
+
+                                                <form
+                                                    method="post"
+                                                    action="{% url 'owner:appointment_status' appointment.pk %}"
+                                                >
+
+                                                    {% csrf_token %}
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="status"
+                                                        value="completed"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="dashboard-action complete"
+                                                    >
+                                                        Complete
+                                                    </button>
+
+                                                </form>
+
+
+                                                <form
+                                                    method="post"
+                                                    action="{% url 'owner:appointment_status' appointment.pk %}"
+                                                >
+
+                                                    {% csrf_token %}
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="status"
+                                                        value="cancelled"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="dashboard-action cancel"
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                </form>
+
+
+                                            <!-- COMPLETED -->
+
+                                            {% elif appointment.status == "completed" %}
+
+                                                <span class="action-muted">
+                                                    Completed
+                                                </span>
+
+
+                                            <!-- CANCELLED -->
+
+                                            {% elif appointment.status == "cancelled" %}
+
+                                                <span class="action-muted">
+                                                    Cancelled
+                                                </span>
+
+                                            {% endif %}
+
+
+                                            <!-- WHATSAPP -->
+
+                                            <a
+                                                href="{{ appointment.whatsapp_url }}"
+                                                target="_blank"
+                                                rel="noopener"
+                                                class="dashboard-action whatsapp"
+                                            >
+                                                WhatsApp
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No appointments found
+                    </h3>
+
+                    {% if search_query or status_filter or date_filter %}
+
+                        <p>
+                            No appointments match your current search or filters.
+                        </p>
+
+                        <a
+                            href="{% url 'owner:dashboard' %}"
+                            class="dashboard-clear-button"
+                        >
+                            Clear Filters
+                        </a>
+
+                    {% else %}
+
+                        <p>
+                            Customer bookings will appear here when someone
+                            books an appointment.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             FUTURE DASHBOARD SECTIONS
+        ========================== -->
+
+       <!-- =========================
+     BUSINESS MANAGEMENT
+========================== -->
+        <div class="dashboard-section">
+
+    <div class="dashboard-section-header">
+
+        <div>
+
+            <span class="section-label">
+                Business Management
+            </span>
+
+            <h2>
+                Manage Naturale May
+            </h2>
+
+            <p>
+                Manage appointments, customers, messages,
+                services and products from one place.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-management-grid">
+
+
+        <div class="dashboard-management-card">
+
+            <span class="management-icon">
+                📅
+            </span>
+
+            <h3>
+                Appointments
+            </h3>
+
+            <p>
+                Review bookings, confirm appointments,
+                complete services and manage cancellations.
+            </p>
+
+            <a
+                href="{% url 'owner:dashboard' %}"
+                class="dashboard-action confirm"
+            >
+                Manage Appointments
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-management-card">
+
+            <span class="management-icon">
+                👥
+            </span>
+
+            <h3>
+                Customers
+            </h3>
+
+            <p>
+                View customer profiles, contact information
+                and appointment history.
+            </p>
+
+            <a
+                href="{% url 'owner:customers_list' %}"
+                class="dashboard-action confirm"
+            >
+                Manage Customers
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-management-card">
+
+            <span class="management-icon">
+                💬
+            </span>
+
+            <h3>
+                Messages
+            </h3>
+
+            <p>
+                Read and manage messages submitted through
+                the Naturale May contact form.
+            </p>
+
+            <a
+                href="{% url 'owner:messages_list' %}"
+                class="dashboard-action confirm"
+            >
+                View Messages
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-management-card">
+
+            <span class="management-icon">
+                💇
+            </span>
+
+            <h3>
+                Services
+            </h3>
+
+            <p>
+                Add, edit and manage Naturale May's
+                hair care services.
+            </p>
+
+            <a
+                href="{% url 'owner:services_list' %}"
+                class="dashboard-action confirm"
+            >
+                Manage Services
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-management-card">
+
+            <span class="management-icon">
+                🛍
+            </span>
+
+            <h3>
+                Products
+            </h3>
+
+            <p>
+                Manage products, images, prices and
+                categories displayed in the shop.
+            </p>
+
+            <a
+                href="{% url 'owner:products_list' %}"
+                class="dashboard-action confirm"
+            >
+                Manage Products
+            </a>
+
+        </div>
+
+
+        {% comment %}
+        <div class="dashboard-management-card">
+
+            <span class="management-icon">
+                ⚙️
+            </span>
+
+        </div>
+        {% endcomment %}
+
+    </div>
+
+</div>
+
+</section>
+
+{% endblock %}

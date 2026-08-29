@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Owner Login | Naturale May
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+
+    <main class="auth-container">
+
+        <div class="auth-card">
+
+
+            <div class="auth-brand">
+
+                <img
+                    src="{% static 'images/logo.png' %}"
+                    alt="Naturale May"
+                    class="auth-logo"
+                >
+
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Owner Login
+                </h1>
+
+                <p>
+                    Sign in to manage your Naturale May business.
+                </p>
+
+            </div>
+
+
+            {% if form.errors %}
+
+                <div class="auth-error">
+
+                    Your username or password is incorrect.
+
+                    Please try again.
+
+                </div>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                class="auth-form"
+            >
+
+                {% csrf_token %}
+
+
+                <div class="auth-field">
+
+                    <label for="id_username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="id_username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="id_password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="id_password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                {% if next %}
+
+                    <input
+                        type="hidden"
+                        name="next"
+                        value="{{ next }}"
+                    >
+
+                {% endif %}
+
+
+                <button
+                    type="submit"
+                    class="dashboard-action confirm auth-submit"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="auth-footer">
+
+                <a href="{% url 'core:home' %}">
+                    ← Back to Naturale May
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>

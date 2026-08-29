@@ -1,0 +1,528 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+    Naturale May | Restoring Confidence Through Nature
+{% endblock %}
+
+
+{% block meta_description %}
+    Discover Naturale May's Natural hair care products, professional
+    braiding, treatments and beauty services — restoring confidence
+    through nature.
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+
+<section class="hero">
+
+    <div class="container hero-grid">
+
+        <div class="hero-content">
+
+            <span class="section-label">
+                Natural Hair • Natural Beauty
+            </span>
+
+            <h1>
+                Restore your confidence.
+                <span>
+                    Naturally.
+                </span>
+            </h1>
+
+            <p class="hero-description">
+
+                Thoughtfully crafted natural hair products
+                and professional hair services designed to
+                nourish your hair, celebrate your beauty,
+                and bring your confidence back to life.
+
+            </p>
+
+
+            <div class="hero-actions">
+
+                <a
+                    href="{% url 'products:shop' %}"
+                    class="btn btn-primary"
+                >
+                    Shop Natural Care
+                </a>
+
+                <a
+                    href="{% url 'appointments:book' %}"
+                    class="btn btn-secondary"
+                >
+                    Book an Appointment
+                </a>
+
+            </div>
+
+
+            <div class="hero-note">
+
+                <span></span>
+
+                Rooted in nature.
+                Made for you.
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-image">
+
+            <div class="hero-image-frame">
+
+                <img
+                    src="{% static 'images/hero-Natural-may.jpg' %}"
+                    alt="Naturale May hair care and beauty"
+                >
+
+            </div>
+
+            <div class="hero-accent">
+                Naturale May
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BRAND INTRODUCTION
+====================================================== -->
+
+
+<section class="section brand-intro">
+
+    <div class="container intro-grid">
+
+        <div class="intro-image">
+
+            <img
+                src="{% static 'images/ceo-Naturale-may.jpg' %}"
+                alt="Founder of Naturale May"
+                loading="lazy"
+            >
+
+        </div>
+
+
+        <div class="intro-content">
+
+            <span class="section-label">
+                The Naturale May Story
+            </span>
+
+            <h2>
+                Beauty that begins
+                with healthy hair.
+            </h2>
+
+            <p>
+
+                At Naturale May, we believe that healthy hair
+                is more than a beauty goal — it is a source
+                of confidence.
+
+            </p>
+
+            <p>
+
+                Our approach combines nature-inspired hair
+                care with professional styling and treatments
+                to help every woman feel comfortable,
+                confident and beautiful in her own hair.
+
+            </p>
+
+
+            <a
+                href="{% url 'core:about' %}"
+                class="btn btn-secondary"
+            >
+                Discover Our Story
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WHY Naturale MAY
+====================================================== -->
+
+
+<section class="section why-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Why Naturale May
+            </span>
+
+            <h2>
+                Your hair deserves
+                a Naturale approach.
+            </h2>
+
+            <p>
+                Everything we do is centered around
+                healthy hair, quality care and helping
+                you feel confident in your natural beauty.
+            </p>
+
+        </div>
+
+
+        <div class="benefits-grid">
+
+            <article class="benefit-card">
+
+                <span class="benefit-number">
+                    01
+                </span>
+
+                <h3>
+                    Nature Inspired
+                </h3>
+
+                <p>
+                    Thoughtfully selected ingredients
+                    designed to care for your hair.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <span class="benefit-number">
+                    02
+                </span>
+
+                <h3>
+                    Professional Care
+                </h3>
+
+                <p>
+                    Expert hair services tailored to
+                    your individual needs.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <span class="benefit-number">
+                    03
+                </span>
+
+                <h3>
+                    Confidence First
+                </h3>
+
+                <p>
+                    Because beautiful hair should make
+                    you feel as good as you look.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <span class="benefit-number">
+                    04
+                </span>
+
+                <h3>
+                    Made With Care
+                </h3>
+
+                <p>
+                    Every Naturale May experience is
+                    created with intention and care.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     STYLES & BRAIDS
+====================================================== -->
+
+<section class="section styles-section">
+
+    <div class="container">
+
+        <div class="section-heading styles-heading">
+
+            <span class="section-label">
+                Our Work
+            </span>
+
+            <h2>
+                Styles That Speak
+                Confidence.
+            </h2>
+
+            <p>
+                From beautiful braids to protective styles,
+                every look is created with care, precision
+                and a passion for healthy, confident hair.
+            </p>
+
+        </div>
+
+
+        <div class="styles-gallery">
+
+            <div class="style-card style-card-large">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-01.jpg' %}"
+                    alt="Naturale May braiding style"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Braiding
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-02.jpg' %}"
+                    alt="Naturale May protective hairstyle"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Protective Styles
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-03.jpg' %}"
+                    alt="Naturale May hairstyle"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Natural Hair
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-04.jpg' %}"
+                    alt="Naturale May braid hairstyle"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Braiding
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card style-card-tall">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-05.jpg' %}"
+                    alt="Naturale May customer hairstyle"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Signature Styles
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-06.jpg' %}"
+                    alt="Naturale May protective hairstyle"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Protective Styles
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-07.jpg' %}"
+                    alt="Naturale May braiding service"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Braiding
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="style-card">
+
+                <img
+                    src="{% static 'images/hairstyles/braid-08.jpg' %}"
+                    alt="Naturale May hairstyle"
+                    loading="lazy"
+                >
+
+                <div class="style-overlay">
+
+                    <span>
+                        Hair Styling
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="styles-cta">
+
+            <p>
+                Love what you see?
+                Let's create your next look.
+            </p>
+
+            <a
+                href="{% url 'appointments:book' %}"
+                class="btn btn-primary"
+            >
+                Book Your Appointment
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     CALL TO ACTION
+====================================================== -->
+
+
+<section class="cta-section">
+
+    <div class="container cta-content">
+
+        <span class="section-label">
+            Your Hair Journey Starts Here
+        </span>
+
+        <h2>
+            Ready to feel confident
+            in your hair again?
+        </h2>
+
+        <p>
+            Explore our natural hair products or
+            book a personalized hair service.
+        </p>
+
+
+        <div class="hero-actions">
+
+            <a
+                href="{% url 'products:shop' %}"
+                class="btn btn-primary"
+            >
+                Shop Products
+            </a>
+
+            <a
+                href="{% url 'appointments:book' %}"
+                class="btn btn-secondary"
+            >
+                Book Appointment
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

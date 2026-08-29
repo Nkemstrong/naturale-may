@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Hair Services | Natural May
+{% endblock %}
+
+{% block meta_description %}
+    Explore Natural May's professional braiding, natural hair styling,
+    treatments and hair care services.
+{% endblock %}
+
+{% block content %}
+
+<section class="services-hero">
+    <div class="container services-hero-content">
+
+        <span class="section-label">
+            Natural May Services
+        </span>
+
+        <h1>
+            Hair care designed
+            <span>around you.</span>
+        </h1>
+
+        <p>
+            From protective styles to nourishing treatments,
+            every Natural May service is designed to help you
+            look beautiful and feel confident.
+        </p>
+
+    </div>
+</section>
+
+
+<section class="section services-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                What We Offer
+            </span>
+
+            <h2>
+                Professional hair services
+                with a natural touch.
+            </h2>
+
+            <p>
+                Choose the service that best suits your hair
+                and book your appointment with Natural May.
+            </p>
+
+        </div>
+
+
+        <div class="services-grid">
+
+            {% for service in services %}
+
+                <article class="service-card">
+
+                    {% if service.image %}
+
+                        <a
+                            href="{{ service.get_absolute_url }}"
+                            class="service-image"
+                        >
+
+                            <img
+                                src="{{ service.image.url }}"
+                                alt="{{ service.name }}"
+                                loading="lazy"
+                            >
+
+                        </a>
+
+                    {% else %}
+
+                        <div class="service-image service-image-placeholder">
+                            <span>Natural May</span>
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="service-card-content">
+
+                        <div class="service-card-top">
+
+                            <h3>
+                                <a href="{{ service.get_absolute_url }}">
+                                    {{ service.name }}
+                                </a>
+                            </h3>
+
+                            {% if service.duration %}
+                                <span class="service-duration">
+                                    {{ service.duration }} min
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if service.short_description %}
+
+                            <p>
+                                {{ service.short_description }}
+                            </p>
+
+                        {% else %}
+
+                            <p>
+                                Professional Natural May hair
+                                care and styling service.
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="service-card-bottom">
+
+                            <div class="service-price">
+
+                                {% if service.price_display == "price" %}
+
+                                    {% if service.price %}
+                                        ₦{{ service.price|floatformat:2 }}
+                                    {% else %}
+                                        Contact for Price
+                                    {% endif %}
+
+                                {% elif service.price_display == "contact" %}
+
+                                    Contact for Price
+
+                                {% elif service.price_display == "coming_soon" %}
+
+                                    Coming Soon
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <a
+                                href="{{ service.get_absolute_url }}"
+                                class="service-link"
+                            >
+                                View Service →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="empty-services">
+
+                    <h3>
+                        Services coming soon.
+                    </h3>
+
+                    <p>
+                        We are currently updating our available
+                        Natural May services. Please check back soon.
+                    </p>
+
+                    <a
+                        href="{% url 'contact:contact' %}"
+                        class="btn btn-primary"
+                    >
+                        Contact Natural May
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="services-cta">
+
+    <div class="container services-cta-content">
+
+        <span class="section-label">
+            Ready for Your Transformation?
+        </span>
+
+        <h2>
+            Let your hair tell
+            your story.
+        </h2>
+
+        <p>
+            Book your Natural May appointment and give your
+            hair the care it deserves.
+        </p>
+
+        <a
+            href="{% url 'appointments:book' %}"
+            class="btn btn-primary"
+        >
+            Book an Appointment
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

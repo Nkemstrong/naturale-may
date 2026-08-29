@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Product Categories | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Product Categories
+                </h1>
+
+                <p>
+                    Create and manage the categories used for Naturale May products.
+                </p>
+
+            </div>
+
+            <div>
+
+                <a
+                    href="{% url 'owner:category_create' %}"
+                    class="dashboard-action confirm"
+                >
+                    + Add Category
+                </a>
+
+                <a
+                    href="{% url 'owner:products_list' %}"
+                    class="dashboard-action"
+                >
+                    Products
+                </a>
+
+            </div>
+
+        </div>
+
+
+        {% if messages %}
+
+            <div class="dashboard-messages">
+
+                {% for message in messages %}
+
+                    <div class="dashboard-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Product Management
+                    </span>
+
+                    <h2>
+                        All Categories
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            {% if categories %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Products</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for category in categories %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ category.name }}
+                                        </strong>
+
+                                        <small>
+                                            {{ category.slug }}
+                                        </small>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if category.description %}
+
+                                            {{ category.description }}
+
+                                        {% else %}
+
+                                            <span class="action-muted">
+                                                No description
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ category.products.count }}
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if category.is_active %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="appointment-status status-cancelled">
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="appointment-actions">
+
+                                            <a
+                                                href="{% url 'owner:category_edit' category.pk %}"
+                                                class="dashboard-action"
+                                            >
+                                                Edit
+                                            </a>
+
+
+                                            <form
+                                                method="post"
+                                                action="{% url 'owner:category_toggle' category.pk %}"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <button
+                                                    type="submit"
+                                                    class="dashboard-action {% if category.is_active %}cancel{% else %}confirm{% endif %}"
+                                                >
+
+                                                    {% if category.is_active %}
+                                                        Deactivate
+                                                    {% else %}
+                                                        Activate
+                                                    {% endif %}
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <a
+                                                href="{% url 'owner:category_delete' category.pk %}"
+                                                class="dashboard-action cancel"
+                                            >
+                                                Delete
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No categories yet
+                    </h3>
+
+                    <p>
+                        Create your first product category.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:category_create' %}"
+                        class="dashboard-action confirm"
+                    >
+                        + Add Category
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

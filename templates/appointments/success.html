@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Appointment Received | Natural May
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-success">
+
+    <div class="container">
+
+        <div class="success-card">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <span class="section-label">
+                Booking Received
+            </span>
+
+            <h1>
+                Thank You, {{ appointment.customer.full_name }}.
+            </h1>
+
+            <p>
+                Your appointment request has been successfully
+                submitted to Natural May.
+            </p>
+
+
+            <div class="appointment-summary">
+
+                <div>
+                    <span>Service</span>
+                    <strong>
+                        {{ appointment.service.name }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Date</span>
+                    <strong>
+                        {{ appointment.appointment_date|date:"l, F j, Y" }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Time</span>
+                    <strong>
+                        {{ appointment.appointment_time|time:"g:i A" }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Status</span>
+                    <strong>
+                        {{ appointment.get_status_display }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <p class="success-note">
+                Natural May will review your appointment and
+                contact you to confirm the booking.
+            </p>
+
+
+            <div class="success-actions">
+
+                <a
+                    href="{% url 'core:home' %}"
+                    class="btn btn-primary"
+                >
+                    Return Home
+                </a>
+
+                <a
+                    href="{% url 'services:list' %}"
+                    class="btn btn-secondary"
+                >
+                    View Services
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

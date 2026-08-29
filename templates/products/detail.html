@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }} | Naturale May
+{% endblock %}
+
+{% block meta_description %}
+    {{ product.short_description|default:product.description|truncatechars:160 }}
+{% endblock %}
+
+{% block content %}
+
+<section class="product-detail-section">
+
+    <div class="container">
+
+        <div class="product-detail-grid">
+
+            <!-- PRODUCT IMAGE -->
+            <div class="product-gallery">
+
+                <div class="product-main-image">
+
+                    {% if product.main_image %}
+                        <img
+                            src="{{ product.main_image.url }}"
+                            alt="{{ product.name }}"
+                        >
+                    {% else %}
+                        <div class="product-image-placeholder">
+                            No image available
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PRODUCT THUMBNAILS -->
+                {% if product.images.all %}
+
+                    <div class="product-thumbnails">
+
+                        {% for image in product.images.all %}
+
+                            <div class="product-thumbnail">
+
+                                <img
+                                    src="{{ image.image.url }}"
+                                    alt="{{ image.alt_text|default:product.name }}"
+                                >
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- PRODUCT INFORMATION -->
+            <div class="product-information">
+
+                <span class="product-category">
+                    {{ product.category.name }}
+                </span>
+
+
+                <h1>
+                    {{ product.name }}
+                </h1>
+
+
+                {% if product.short_description %}
+
+                    <p class="product-short-description">
+                        {{ product.short_description }}
+                    </p>
+
+                {% endif %}
+
+
+                <!-- PRICE -->
+                <div class="product-price">
+                    ₦{{ product.price|floatformat:2 }}
+                </div>
+
+
+                <!-- STOCK STATUS -->
+                <div class="product-stock">
+
+                    {% if product.stock_status == "in_stock" %}
+
+                        <span class="stock-badge in-stock">
+                            ● In Stock
+                        </span>
+
+                    {% elif product.stock_status == "out_of_stock" %}
+
+                        <span class="stock-badge out-stock">
+                            ● Out of Stock
+                        </span>
+
+                    {% else %}
+
+                        <span class="stock-badge coming-soon">
+                            ● Coming Soon
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- WHATSAPP ORDER -->
+                {% if product.stock_status == "in_stock" %}
+
+                    <a
+                        href="{{ whatsapp_url }}"
+                        class="product-whatsapp-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span>
+                            Order via WhatsApp
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+
+                {% elif product.stock_status == "coming_soon" %}
+
+                    <a
+                        href="{{ whatsapp_url }}"
+                        class="product-whatsapp-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span>
+                            Ask About This Product
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+                {% endif %}
+
+
+                <!-- DESCRIPTION -->
+                {% if product.description %}
+
+                    <div class="product-info-block">
+
+                        <h2>
+                            About this product
+                        </h2>
+
+                        <p>
+                            {{ product.description }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT DETAILS -->
+        <div class="product-details">
+
+
+            <!-- BENEFITS -->
+            {% if product.benefits %}
+
+                <div class="product-detail-card">
+
+                    <span class="detail-label">
+                        Benefits
+                    </span>
+
+                    <h2>
+                        Why you'll love it
+                    </h2>
+
+                    <div class="detail-text">
+                        {{ product.benefits|linebreaks }}
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- INGREDIENTS -->
+            {% if product.ingredients %}
+
+                <div class="product-detail-card">
+
+                    <span class="detail-label">
+                        Ingredients
+                    </span>
+
+                    <h2>
+                        What's inside
+                    </h2>
+
+                    <div class="detail-text">
+                        {{ product.ingredients|linebreaks }}
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- USAGE -->
+            {% if product.usage_instructions %}
+
+                <div class="product-detail-card">
+
+                    <span class="detail-label">
+                        How to use
+                    </span>
+
+                    <h2>
+                        Usage instructions
+                    </h2>
+
+                    <div class="detail-text">
+                        {{ product.usage_instructions|linebreaks }}
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

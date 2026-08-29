@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Services | Natural May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Natural May
+                </span>
+
+                <h1>
+                    Services
+                </h1>
+
+                <p>
+                    Manage the services customers can book.
+                </p>
+            </div>
+
+            <div>
+                <a
+                    href="{% url 'owner:service_create' %}"
+                    class="dashboard-action confirm"
+                >
+                    + Add Service
+                </a>
+            </div>
+
+        </div>
+
+
+        {% if messages %}
+
+            <div class="dashboard-messages">
+
+                {% for message in messages %}
+
+                    <div class="dashboard-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+                    <span class="section-label">
+                        Service Management
+                    </span>
+
+                    <h2>
+                        All Services
+                    </h2>
+                </div>
+
+            </div>
+
+
+            {% if services %}
+
+                <div class="dashboard-table-wrapper">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Service</th>
+                                <th>Price</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for service in services %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ service.name }}
+                                        </strong>
+
+                                        {% if service.short_description %}
+
+                                            <small>
+                                                {{ service.short_description }}
+                                            </small>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if service.price_display == "price" %}
+
+                                            {% if service.price %}
+                                                ₦{{ service.price|floatformat:2 }}
+                                            {% else %}
+                                                Price not set
+                                            {% endif %}
+
+                                        {% elif service.price_display == "contact" %}
+
+                                            Contact for Price
+
+                                        {% elif service.price_display == "coming_soon" %}
+
+                                            Coming Soon
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if service.duration %}
+                                            {{ service.duration }} mins
+                                        {% else %}
+                                            —
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if service.is_active %}
+
+                                            <span class="appointment-status status-confirmed">
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="appointment-status status-cancelled">
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="appointment-actions">
+
+                                            <a
+                                                href="{% url 'owner:service_edit' service.pk %}"
+                                                class="dashboard-action"
+                                            >
+                                                Edit
+                                            </a>
+
+
+                                            <form
+                                                method="post"
+                                                action="{% url 'owner:service_toggle' service.pk %}"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <button
+                                                    type="submit"
+                                                    class="dashboard-action {% if service.is_active %}cancel{% else %}confirm{% endif %}"
+                                                >
+                                                    {% if service.is_active %}
+                                                        Deactivate
+                                                    {% else %}
+                                                        Activate
+                                                    {% endif %}
+                                                </button>
+
+                                            </form>
+
+
+                                            <a
+                                                href="{% url 'owner:service_delete' service.pk %}"
+                                                class="dashboard-action cancel"
+                                            >
+                                                Delete
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No services yet
+                    </h3>
+
+                    <p>
+                        Add your first service to start accepting bookings.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:service_create' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Add Service
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

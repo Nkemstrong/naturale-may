@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ service.name }} | Natural May
+{% endblock %}
+
+{% block meta_description %}
+    {{ service.short_description }}
+{% endblock %}
+
+{% block content %}
+
+<section class="service-detail">
+
+    <div class="container">
+
+        <div class="service-detail-grid">
+
+            <!-- IMAGE -->
+
+            <div class="service-detail-image">
+
+                {% if service.image %}
+
+                    <img
+                        src="{{ service.image.url }}"
+                        alt="{{ service.name }}"
+                    >
+
+                {% else %}
+
+                    <div class="service-detail-placeholder">
+                        Natural May
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="service-detail-content">
+
+                <span class="section-label">
+                    Natural May Service
+                </span>
+
+                <h1>
+                    {{ service.name }}
+                </h1>
+
+
+                {% if service.short_description %}
+
+                    <p class="service-detail-intro">
+                        {{ service.short_description }}
+                    </p>
+
+                {% endif %}
+
+
+                <div class="service-meta">
+
+                    {% if service.duration %}
+
+                        <div class="service-meta-item">
+
+                            <span>
+                                Duration
+                            </span>
+
+                            <strong>
+                                {{ service.duration }} minutes
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="service-meta-item">
+
+                        <span>
+                            Price
+                        </span>
+
+                        <strong>
+
+                            {% if service.price_display == "price" %}
+
+                                {% if service.price %}
+                                    ₦{{ service.price|floatformat:2 }}
+                                {% else %}
+                                    Contact for Price
+                                {% endif %}
+
+                            {% elif service.price_display == "contact" %}
+
+                                Contact for Price
+
+                            {% elif service.price_display == "coming_soon" %}
+
+                                Coming Soon
+
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                {% if service.description %}
+
+                    <div class="service-description">
+
+                        {{ service.description|linebreaks }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="service-detail-actions">
+
+                    <a
+                        href="{% url 'appointments:book' %}?service={{ service.id }}"
+                        class="btn btn-primary"
+                    >
+                        Book This Service
+                    </a>
+
+                    <a
+                        href="{% url 'services:list' %}"
+                        class="btn btn-secondary"
+                    >
+                        View All Services
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

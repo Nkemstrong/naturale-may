@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <span class="section-label">
+                    Product Gallery
+                </span>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+                    {{ product.name }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-section">
+
+            <form
+                method="post"
+                enctype="multipart/form-data"
+                class="owner-form"
+            >
+
+                {% csrf_token %}
+
+
+                {% if form.non_field_errors %}
+
+                    <div class="dashboard-messages">
+
+                        {% for error in form.non_field_errors %}
+
+                            <div class="dashboard-message">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+
+                        {% if field.help_text %}
+
+                            <small>
+                                {{ field.help_text }}
+                            </small>
+
+                        {% endif %}
+
+
+                        {% if field.errors %}
+
+                            <div class="form-error">
+                                {{ field.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+
+                {% if image and image.image %}
+
+                    <div class="form-group">
+
+                        <label>
+                            Current Image
+                        </label>
+
+                        <img
+                            src="{{ image.image.url }}"
+                            alt="{{ image.alt_text|default:product.name }}"
+                            style="max-width: 300px; display: block;"
+                        >
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'owner:product_gallery' product.pk %}"
+                        class="dashboard-action"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="dashboard-action confirm"
+                    >
+                        {{ submit_text }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

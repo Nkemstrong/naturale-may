@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Book an Appointment | Natural May
+{% endblock %}
+
+{% block meta_description %}
+    Book a professional hair care, braiding or styling appointment
+    with Natural May.
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-page">
+
+    <div class="container">
+
+        <div class="booking-header">
+
+            <span class="section-label">
+                Natural May
+            </span>
+
+            <h1>
+                Book Your Appointment
+            </h1>
+
+            <p>
+                Choose your preferred service, date and time.
+                We look forward to taking care of your hair.
+            </p>
+
+        </div>
+
+
+        <div class="booking-layout">
+
+
+            <!-- BOOKING FORM -->
+
+            <div class="booking-form-wrapper">
+
+                <form
+                    method="post"
+                    class="booking-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-error">
+
+                            {{ form.non_field_errors }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- CUSTOMER INFORMATION -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            Your Information
+                        </h2>
+
+                        <p>
+                            Tell us how we can reach you.
+                        </p>
+
+
+                        <div class="form-group">
+
+                            <label for="{{ form.full_name.id_for_label }}">
+                                Full Name
+                            </label>
+
+                            {{ form.full_name }}
+
+                            {% for error in form.full_name.errors %}
+                                <small class="field-error">
+                                    {{ error }}
+                                </small>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="{{ form.phone.id_for_label }}">
+                                    Phone Number
+                                </label>
+
+                                {{ form.phone }}
+
+                                {% for error in form.phone.errors %}
+                                    <small class="field-error">
+                                        {{ error }}
+                                    </small>
+                                {% endfor %}
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="{{ form.email.id_for_label }}">
+                                    Email Address
+                                </label>
+
+                                {{ form.email }}
+
+                                {% for error in form.email.errors %}
+                                    <small class="field-error">
+                                        {{ error }}
+                                    </small>
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- APPOINTMENT INFORMATION -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            Appointment Details
+                        </h2>
+
+                        <p>
+                            Select the service and time that works best for you.
+                        </p>
+
+
+                        <div class="form-group">
+
+                            <label for="{{ form.service.id_for_label }}">
+                                Service
+                            </label>
+
+                            {{ form.service }}
+
+                            {% for error in form.service.errors %}
+                                <small class="field-error">
+                                    {{ error }}
+                                </small>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="{{ form.appointment_date.id_for_label }}">
+                                    Preferred Date
+                                </label>
+
+                                {{ form.appointment_date }}
+
+                                {% for error in form.appointment_date.errors %}
+                                    <small class="field-error">
+                                        {{ error }}
+                                    </small>
+                                {% endfor %}
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="{{ form.appointment_time.id_for_label }}">
+                                    Preferred Time
+                                </label>
+
+                                {{ form.appointment_time }}
+
+                                {% for error in form.appointment_time.errors %}
+                                    <small class="field-error">
+                                        {{ error }}
+                                    </small>
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="{{ form.notes.id_for_label }}">
+                                Additional Notes
+                            </label>
+
+                            {{ form.notes }}
+
+                            {% for error in form.notes.errors %}
+                                <small class="field-error">
+                                    {{ error }}
+                                </small>
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary booking-submit"
+                    >
+                        Submit Appointment Request
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- INFORMATION PANEL -->
+
+            <aside class="booking-info">
+
+                <span class="section-label">
+                    Natural May
+                </span>
+
+                <h2>
+                    Your hair deserves
+                    thoughtful care.
+                </h2>
+
+                <p>
+                    Every appointment is designed around your
+                    hair, your needs and your confidence.
+                </p>
+
+
+                <div class="booking-info-item">
+
+                    <strong>
+                        Before Your Appointment
+                    </strong>
+
+                    <p>
+                        Please provide accurate contact details
+                        so we can reach you regarding your booking.
+                    </p>
+
+                </div>
+
+
+                <div class="booking-info-item">
+
+                    <strong>
+                        Appointment Confirmation
+                    </strong>
+
+                    <p>
+                        Your booking will initially be marked as
+                        pending while Natural May reviews it.
+                    </p>
+
+                </div>
+
+
+                <div class="booking-info-item">
+
+                    <strong>
+                        Need Help?
+                    </strong>
+
+                    <p>
+                        Contact Natural May if you need assistance
+                        choosing a service or appointment time.
+                    </p>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

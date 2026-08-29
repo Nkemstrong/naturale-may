@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Category | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-section">
+
+            <span class="section-label">
+                Product Management
+            </span>
+
+            <h1>
+                Delete Category
+            </h1>
+
+            <p>
+                Are you sure you want to delete
+                <strong>{{ category.name }}</strong>?
+            </p>
+
+            {% if category.products.count %}
+
+                <div class="dashboard-message">
+
+                    This category currently has
+                    <strong>{{ category.products.count }}</strong>
+                    product{{ category.products.count|pluralize }}.
+
+                    It cannot be deleted while products are using it.
+                    You should deactivate it instead.
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-message">
+
+                    This category has no products and can be deleted.
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'owner:categories_list' %}"
+                    class="dashboard-action"
+                >
+                    Cancel
+                </a>
+
+
+                {% if not category.products.count %}
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="dashboard-action cancel"
+                        >
+                            Yes, Delete Category
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

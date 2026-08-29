@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ product.name }} Gallery | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <span class="section-label">
+                    Product Management
+                </span>
+
+                <h1>
+                    {{ product.name }}
+                </h1>
+
+                <p>
+                    Manage the additional images for this product.
+                </p>
+
+            </div>
+
+            <div>
+
+                <a
+                    href="{% url 'owner:product_image_create' product.pk %}"
+                    class="dashboard-action confirm"
+                >
+                    + Add Image
+                </a>
+
+                <a
+                    href="{% url 'owner:products_list' %}"
+                    class="dashboard-action"
+                >
+                    Back to Products
+                </a>
+
+            </div>
+
+        </div>
+
+
+        {% if messages %}
+
+            <div class="dashboard-messages">
+
+                {% for message in messages %}
+
+                    <div class="dashboard-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Product Gallery
+                    </span>
+
+                    <h2>
+                        Gallery Images
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            {% if images %}
+
+                <div class="product-gallery-grid">
+
+                    {% for image in images %}
+
+                        <div class="product-gallery-card">
+
+                            <div class="product-gallery-image">
+
+                                <img
+                                    src="{{ image.image.url }}"
+                                    alt="{{ image.alt_text|default:product.name }}"
+                                >
+
+                            </div>
+
+
+                            <div class="product-gallery-info">
+
+                                {% if image.alt_text %}
+
+                                    <p>
+                                        {{ image.alt_text }}
+                                    </p>
+
+                                {% else %}
+
+                                    <p>
+                                        No alt text provided.
+                                    </p>
+
+                                {% endif %}
+
+
+                                <div class="appointment-actions">
+
+                                    <a
+                                        href="{% url 'owner:product_image_edit' image.pk %}"
+                                        class="dashboard-action"
+                                    >
+                                        Edit
+                                    </a>
+
+                                    <a
+                                        href="{% url 'owner:product_image_delete' image.pk %}"
+                                        class="dashboard-action cancel"
+                                    >
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty">
+
+                    <h3>
+                        No gallery images yet
+                    </h3>
+
+                    <p>
+                        Add additional images to showcase this product.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:product_image_create' product.pk %}"
+                        class="dashboard-action confirm"
+                    >
+                        + Add First Image
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

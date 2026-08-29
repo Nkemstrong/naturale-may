@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Message | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <span class="section-label">
+                    Customer Message
+                </span>
+
+                <h1>
+                    {{ contact_message.subject|default:"General Enquiry" }}
+                </h1>
+
+                <p>
+                    Received {{ contact_message.created_at|date:"F j, Y" }}
+                    at {{ contact_message.created_at|time:"g:i A" }}.
+                </p>
+
+            </div>
+
+            <div>
+
+                <a
+                    href="{% url 'owner:messages_list' %}"
+                    class="dashboard-action"
+                >
+                    ← Back to Messages
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Customer Details
+                    </span>
+
+                    <h2>
+                        {{ contact_message.name }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-message-detail">
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ contact_message.email }}
+                </p>
+
+                {% if contact_message.phone %}
+
+                    <p>
+                        <strong>Phone:</strong>
+                        {{ contact_message.phone }}
+                    </p>
+
+                {% endif %}
+
+
+                <hr>
+
+
+                <h3>
+                    Message
+                </h3>
+
+                <p>
+                    {{ contact_message.message|linebreaks }}
+                </p>
+
+            </div>
+
+
+            <div class="appointment-actions">
+
+                <a
+                    href="mailto:{{ contact_message.email }}"
+                    class="dashboard-action confirm"
+                >
+                    Reply by Email
+                </a>
+
+                {% if contact_message.phone %}
+
+                    <a
+                        href="tel:{{ contact_message.phone }}"
+                        class="dashboard-action"
+                    >
+                        Call Customer
+                    </a>
+
+                {% endif %}
+
+                <a
+                    href="{% url 'owner:message_delete' contact_message.pk %}"
+                    class="dashboard-action cancel"
+                >
+                    Delete
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

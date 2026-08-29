@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    About Naturale May | Our Story
+{% endblock %}
+
+{% block meta_description %}
+    Learn the story behind Naturale May, our passion for healthy
+    natural hair, professional hair care and confidence.
+{% endblock %}
+
+{% block content %}
+
+<!-- =====================================================
+     ABOUT HERO
+====================================================== -->
+
+<section class="about-hero">
+
+    <div class="container">
+
+        <span class="section-label">
+            The Naturale May Story
+        </span>
+
+        <h1>
+            Beauty begins with
+            <span>healthy hair.</span>
+        </h1>
+
+        <p>
+            Naturale May was created from a simple belief:
+            caring for your hair should be an experience
+            that restores both your hair and your confidence.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     OUR STORY
+====================================================== -->
+
+<section class="section about-story">
+
+    <div class="container about-story-grid">
+
+        <div class="about-story-image">
+
+            <img
+                src="{% static 'images/ceo-natural-may.jpg' %}"
+                alt="Founder of Natural May"
+            >
+
+        </div>
+
+
+        <div class="about-story-content">
+
+            <span class="section-label">
+                Our Story
+            </span>
+
+            <h2>
+                More than hair care.
+                A confidence journey.
+            </h2>
+
+            <p>
+                At Naturale May, we understand that hair is deeply
+                connected to how we see ourselves. Healthy,
+                beautiful hair can change the way you walk into
+                a room, the way you express yourself and the way
+                you feel about yourself.
+            </p>
+
+            <p>
+                Our goal is to create a welcoming space where
+                natural hair can be cared for, styled and
+                celebrated.
+            </p>
+
+            <p>
+                From carefully selected hair care products to
+                professional braiding, treatments and styling,
+                every Naturale May experience is designed with
+                care and attention to detail.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     OUR APPROACH
+====================================================== -->
+
+<section class="section about-approach">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                What We Believe
+            </span>
+
+            <h2>
+                Our approach is simple.
+            </h2>
+
+            <p>
+                Healthy hair, thoughtful care and confidence
+                are at the heart of everything we do.
+            </p>
+
+        </div>
+
+
+        <div class="about-values-grid">
+
+            <article class="about-value-card">
+
+                <span class="benefit-number">
+                    01
+                </span>
+
+                <h3>
+                    Healthy Hair First
+                </h3>
+
+                <p>
+                    We believe beautiful styling should never
+                    come at the expense of healthy hair.
+                </p>
+
+            </article>
+
+
+            <article class="about-value-card">
+
+                <span class="benefit-number">
+                    02
+                </span>
+
+                <h3>
+                    Natural Care
+                </h3>
+
+                <p>
+                    We embrace nature-inspired approaches to
+                    nourishing and caring for your hair.
+                </p>
+
+            </article>
+
+
+            <article class="about-value-card">
+
+                <span class="benefit-number">
+                    03
+                </span>
+
+                <h3>
+                    Personal Attention
+                </h3>
+
+                <p>
+                    Every client and every head of hair is
+                    different. Your care should be personal.
+                </p>
+
+            </article>
+
+
+            <article class="about-value-card">
+
+                <span class="benefit-number">
+                    04
+                </span>
+
+                <h3>
+                    Confidence
+                </h3>
+
+                <p>
+                    Our ultimate goal is for you to leave
+                    feeling confident, beautiful and cared for.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CTA
+====================================================== -->
+
+<section class="about-cta">
+
+    <div class="container">
+
+        <span class="section-label">
+            Your Hair Journey
+        </span>
+
+        <h2>
+            Ready to experience
+            Naturale May?
+        </h2>
+
+        <p>
+            Explore our products or book an appointment
+            with us today.
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="{% url 'services:list' %}"
+                class="btn btn-primary"
+            >
+                Explore Services
+            </a>
+
+            <a
+                href="{% url 'appointments:book' %}"
+                class="btn btn-secondary"
+            >
+                Book Appointment
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

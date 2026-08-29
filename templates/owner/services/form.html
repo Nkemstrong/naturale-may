@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | Natural May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Natural May
+                </span>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+                    {% if service %}
+                        Update the details of this service.
+                    {% else %}
+                        Add a new service that customers can book.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <a
+                    href="{% url 'owner:services_list' %}"
+                    class="dashboard-action"
+                >
+                    ← Back to Services
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+                    <span class="section-label">
+                        Service Details
+                    </span>
+
+                    <h2>
+                        {% if service %}
+                            Edit Service
+                        {% else %}
+                            Add New Service
+                        {% endif %}
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <form
+                method="post"
+                enctype="multipart/form-data"
+                class="dashboard-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- FORM ERRORS -->
+                {% if form.non_field_errors %}
+
+                    <div class="dashboard-messages">
+
+                        {% for error in form.non_field_errors %}
+
+                            <div class="dashboard-message">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        Service Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+                        <small class="form-error">
+                            {{ form.name.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SLUG -->
+                <div class="form-group">
+
+                    <label for="{{ form.slug.id_for_label }}">
+                        Slug
+                    </label>
+
+                    {{ form.slug }}
+
+                    <small class="form-help">
+                        Example: natural-hair-treatment
+                    </small>
+
+                    {% if form.slug.errors %}
+                        <small class="form-error">
+                            {{ form.slug.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SHORT DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="{{ form.short_description.id_for_label }}">
+                        Short Description
+                    </label>
+
+                    {{ form.short_description }}
+
+                    {% if form.short_description.errors %}
+                        <small class="form-error">
+                            {{ form.short_description.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Full Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% if form.description.errors %}
+                        <small class="form-error">
+                            {{ form.description.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PRICE DISPLAY -->
+                <div class="form-group">
+
+                    <label for="{{ form.price_display.id_for_label }}">
+                        Price Display
+                    </label>
+
+                    {{ form.price_display }}
+
+                    <small class="form-help">
+                        Choose whether to show the price, ask customers
+                        to contact you, or mark the service as coming soon.
+                    </small>
+
+                    {% if form.price_display.errors %}
+                        <small class="form-error">
+                            {{ form.price_display.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="form-group">
+
+                    <label for="{{ form.price.id_for_label }}">
+                        Price (₦)
+                    </label>
+
+                    {{ form.price }}
+
+                    {% if form.price.errors %}
+                        <small class="form-error">
+                            {{ form.price.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DURATION -->
+                <div class="form-group">
+
+                    <label for="{{ form.duration.id_for_label }}">
+                        Duration (minutes)
+                    </label>
+
+                    {{ form.duration }}
+
+                    {% if form.duration.errors %}
+                        <small class="form-error">
+                            {{ form.duration.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- IMAGE -->
+                <div class="form-group">
+
+                    <label for="{{ form.image.id_for_label }}">
+                        Service Image
+                    </label>
+
+                    {{ form.image }}
+
+                    {% if service and service.image %}
+
+                        <div class="current-image">
+
+                            <p>
+                                Current image:
+                            </p>
+
+                            <img
+                                src="{{ service.image.url }}"
+                                alt="{{ service.name }}"
+                                style="max-width: 220px; border-radius: 12px;"
+                            >
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if form.image.errors %}
+                        <small class="form-error">
+                            {{ form.image.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ACTIVE -->
+                <div class="form-group form-checkbox">
+
+                    {{ form.is_active }}
+
+                    <label for="{{ form.is_active.id_for_label }}">
+                        Service is active and available for booking
+                    </label>
+
+                    {% if form.is_active.errors %}
+                        <small class="form-error">
+                            {{ form.is_active.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'owner:services_list' %}"
+                        class="dashboard-action"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="dashboard-action confirm"
+                    >
+                        {{ submit_text }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %} 

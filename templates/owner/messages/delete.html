@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Message | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    Delete Message
+                </h1>
+
+                <p>
+                    Are you sure you want to delete this customer message?
+                    This action cannot be undone.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-message-detail">
+
+                <p>
+                    <strong>From:</strong>
+                    {{ contact_message.name }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ contact_message.email }}
+                </p>
+
+                {% if contact_message.subject %}
+
+                    <p>
+                        <strong>Subject:</strong>
+                        {{ contact_message.subject }}
+                    </p>
+
+                {% endif %}
+
+
+                <hr>
+
+
+                <p>
+                    {{ contact_message.message|linebreaks }}
+                </p>
+
+            </div>
+
+
+            <div class="appointment-actions">
+
+                <form
+                    method="post"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="dashboard-action cancel"
+                    >
+                        Yes, Delete Message
+                    </button>
+
+                </form>
+
+
+                <a
+                    href="{% url 'owner:messages_list' %}"
+                    class="dashboard-action"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
