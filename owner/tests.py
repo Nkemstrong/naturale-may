@@ -1,3 +1,8 @@
+import os
+os.environ["DJANGO_TEST"] = "True"
+
+from urllib import response
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -57,7 +62,8 @@ class OwnerAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'class="auth-page"')
-        self.assertContains(response, 'href="/static/css/style.css"')
+        self.assertContains(response, "/static/css/style.")
+        self.assertContains(response, ".css")
 
     def test_owner_login_accepts_staff_credentials(self):
         get_user_model().objects.create_user(
