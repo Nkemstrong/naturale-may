@@ -1,0 +1,434 @@
+{% extends "owner/dashboard.html" %}
+
+{% block title %}Orders | Naturale May{% endblock %}
+
+{% block content %}
+
+<style>
+    .orders-page {
+        padding: 30px;
+    }
+
+    .orders-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .orders-header h1 {
+        margin: 0 0 8px;
+        color: #1e3a26;
+    }
+
+    .orders-header p {
+        margin: 0;
+        color: #777;
+    }
+
+    .orders-filters {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr auto;
+        gap: 15px;
+        align-items: end;
+    }
+
+    .filter-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        margin-bottom: 7px;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 12px;
+        border: 1px solid #ddd8cd;
+        background: #fff;
+        color: #333;
+        font: inherit;
+    }
+
+    .filter-btn {
+        border: 0;
+        background: #1e3a26;
+        color: #fff;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-weight: 700;
+    }
+
+    .filter-btn:hover {
+        background: #294b31;
+    }
+
+    .orders-table-wrapper {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        overflow-x: auto;
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
+    }
+
+    .orders-table th {
+        background: #f7f5ef;
+        color: #555;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        text-align: left;
+        padding: 16px;
+        border-bottom: 1px solid #e7e3da;
+    }
+
+    .orders-table td {
+        padding: 17px 16px;
+        border-bottom: 1px solid #eeeae1;
+        color: #444;
+        vertical-align: middle;
+    }
+
+    .orders-table tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .orders-table tr:hover td {
+        background: #fcfbf8;
+    }
+
+    .order-number {
+        color: #1e3a26;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .order-number:hover {
+        text-decoration: underline;
+    }
+
+    .customer-name {
+        color: #222;
+        font-weight: 700;
+    }
+
+    .customer-contact {
+        color: #777;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .amount {
+        color: #1e3a26;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        white-space: nowrap;
+    }
+
+    .badge-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .badge-paid,
+    .badge-completed {
+        background: #dff3e5;
+        color: #216e39;
+    }
+
+    .badge-rejected,
+    .badge-cancelled {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .badge-processing,
+    .badge-shipped {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .empty-orders {
+        text-align: center;
+        padding: 70px 25px;
+        color: #777;
+    }
+
+    .empty-orders h2 {
+        color: #1e3a26;
+        margin-bottom: 8px;
+    }
+
+    .view-btn {
+        display: inline-block;
+        padding: 9px 14px;
+        background: #1e3a26;
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .view-btn:hover {
+        background: #294b31;
+        color: #fff;
+    }
+
+    .orders-count {
+        margin-bottom: 15px;
+        color: #777;
+        font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+        .orders-page {
+            padding: 20px;
+        }
+
+        .orders-header {
+            flex-direction: column;
+        }
+
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="orders-page">
+
+    <div class="orders-header">
+        <div>
+            <h1>Orders</h1>
+            <p>Manage customer orders, payments and fulfilment.</p>
+        </div>
+    </div>
+
+    <form method="get" class="orders-filters">
+
+        <div class="filter-grid">
+
+            <div class="filter-group">
+                <label for="search">Search</label>
+                <input
+                    type="text"
+                    id="search"
+                    name="q"
+                    value="{{ search_query|default:'' }}"
+                    placeholder="Order number, name, phone..."
+                >
+            </div>
+
+            <div class="filter-group">
+                <label for="payment_status">Payment</label>
+
+                <select
+                    id="payment_status"
+                    name="payment_status"
+                >
+                    <option value="">All payments</option>
+
+                    <option value="pending"
+                        {% if payment_filter == "pending" %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                    <option value="paid"
+                        {% if payment_filter == "paid" %}selected{% endif %}>
+                        Paid
+                    </option>
+
+                    <option value="rejected"
+                        {% if payment_filter == "rejected" %}selected{% endif %}>
+                        Rejected
+                    </option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="order_status">Order status</label>
+
+                <select
+                    id="order_status"
+                    name="order_status"
+                >
+                    <option value="">All statuses</option>
+
+                    <option value="pending"
+                        {% if order_filter == "pending" %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                    <option value="processing"
+                        {% if order_filter == "processing" %}selected{% endif %}>
+                        Processing
+                    </option>
+
+                    <option value="shipped"
+                        {% if order_filter == "shipped" %}selected{% endif %}>
+                        Shipped
+                    </option>
+
+                    <option value="completed"
+                        {% if order_filter == "completed" %}selected{% endif %}>
+                        Completed
+                    </option>
+
+                    <option value="cancelled"
+                        {% if order_filter == "cancelled" %}selected{% endif %}>
+                        Cancelled
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="filter-btn">
+                Filter
+            </button>
+
+        </div>
+
+    </form>
+
+    {% if orders %}
+
+        <div class="orders-count">
+            Showing {{ orders|length }} order{{ orders|length|pluralize }}.
+        </div>
+
+        <div class="orders-table-wrapper">
+
+            <table class="orders-table">
+
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Order Status</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for order in orders %}
+
+                        <tr>
+
+                            <td>
+                                <a
+                                    href="{% url 'owner:order_detail' order.pk %}"
+                                    class="order-number"
+                                >
+                                    {{ order.order_number }}
+                                </a>
+                            </td>
+
+                            <td>
+                                <div class="customer-name">
+                                    {{ order.customer_name }}
+                                </div>
+
+                                <div class="customer-contact">
+                                    {{ order.customer_phone }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="amount">
+                                    ₦{{ order.total_amount|floatformat:2 }}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <span class="badge badge-{{ order.payment_status }}">
+                                    {{ order.get_payment_status_display }}
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge badge-{{ order.order_status }}">
+                                    {{ order.get_order_status_display }}
+                                </span>
+
+                            </td>
+
+                            <td>
+                                {{ order.created_at|date:"d M Y" }}
+                                <br>
+                                <small>
+                                    {{ order.created_at|date:"h:i A" }}
+                                </small>
+                            </td>
+
+                            <td>
+                                <a
+                                    href="{% url 'owner:order_detail' order.pk %}"
+                                    class="view-btn"
+                                >
+                                    View
+                                </a>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="orders-table-wrapper">
+
+            <div class="empty-orders">
+
+                <h2>No orders found</h2>
+
+                <p>
+                    There are currently no orders matching your filters.
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -2,6 +2,8 @@ from urllib.parse import quote
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import user_passes_test
 from django.db import models
 from django.db.models import Count, Q
@@ -9,9 +11,17 @@ from django.db.models.deletion import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
+from .forms import BusinessSettingsForm
+from .models import BusinessSettings
+
 from appointments.models import Appointment, Customer
 from contact.models import ContactMessage
-from products.models import Product, ProductCategory, ProductImage
+from products.models import (
+    Order,
+    Product,
+    ProductCategory,
+    ProductImage,
+)
 from services.models import Service
 
 from .forms import (
@@ -76,6 +86,40 @@ def owner_logout(request):
     logout(request)
     return redirect("owner:login")
 
+@owner_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            # Keep the owner logged in after changing password
+            update_session_auth_hash(request, user)
+
+            messages.success(
+                request,
+                "Your password has been changed successfully."
+            )
+
+            return redirect("owner:change_password")
+
+    else:
+        form = PasswordChangeForm(request.user)
+
+    for field in form.fields.values():
+        field.widget.attrs["class"] = "form-control"
+
+    return render(
+        request,
+        "owner/change_password.html",
+        {"form": form}
+    )
+
+
+# ============================================================
+# DASHBOARD
+# ============================================================
 
 # ============================================================
 # DASHBOARD
@@ -101,7 +145,10 @@ def dashboard(request):
     # SEARCH
     # --------------------------------------------------------
 
-    search_query = request.GET.get("search", "").strip()
+    search_query = request.GET.get(
+        "search",
+        "",
+    ).strip()
 
     if search_query:
         appointments = appointments.filter(
@@ -115,7 +162,10 @@ def dashboard(request):
     # STATUS FILTER
     # --------------------------------------------------------
 
-    status_filter = request.GET.get("status", "").strip()
+    status_filter = request.GET.get(
+        "status",
+        "",
+    ).strip()
 
     allowed_statuses = [
         "pending",
@@ -133,7 +183,10 @@ def dashboard(request):
     # DATE FILTER
     # --------------------------------------------------------
 
-    date_filter = request.GET.get("date", "").strip()
+    date_filter = request.GET.get(
+        "date",
+        "",
+    ).strip()
 
     if date_filter:
         appointments = appointments.filter(
@@ -174,20 +227,21 @@ def dashboard(request):
             if character.isdigit()
         )
 
-        # Convert Nigerian numbers such as 08012345678
-        # to international format 2348012345678
+        # Convert Nigerian numbers such as
+        # 08012345678 to 2348012345678
+
         if phone.startswith("0"):
             phone = "234" + phone[1:]
 
         message = (
             f"Hello {appointment.customer.full_name}, "
-            f"this is Natural May. "
+            f"this is Naturale May. "
             f"We are following up on your appointment for "
             f"{appointment.service.name} on "
             f"{appointment.appointment_date.strftime('%B %d, %Y')} "
             f"at "
             f"{appointment.appointment_time.strftime('%I:%M %p')}. "
-            f"Thank you for choosing Natural May."
+            f"Thank you for choosing Naturale May."
         )
 
         appointment.whatsapp_url = (
@@ -276,10 +330,29 @@ def dashboard(request):
     )
 
     # --------------------------------------------------------
+    # ORDERS
+    # --------------------------------------------------------
+
+    total_orders = Order.objects.count()
+
+    pending_orders = Order.objects.filter(
+        order_status="pending"
+    ).count()
+
+    pending_payments = Order.objects.filter(
+        payment_status="pending"
+    ).count()
+
+    paid_orders = Order.objects.filter(
+        payment_status="paid"
+    ).count()
+
+    # --------------------------------------------------------
     # CONTEXT
     # --------------------------------------------------------
 
     context = {
+
         # Appointments
         "appointments": appointments,
         "today_appointments": today_appointments,
@@ -301,6 +374,12 @@ def dashboard(request):
         "this_month_appointments": this_month_appointments,
         "popular_service": popular_service,
 
+        # Order statistics
+        "total_orders": total_orders,
+        "pending_orders": pending_orders,
+        "pending_payments": pending_payments,
+        "paid_orders": paid_orders,
+
         # Filters
         "search_query": search_query,
         "status_filter": status_filter,
@@ -312,7 +391,236 @@ def dashboard(request):
         "owner/dashboard.html",
         context,
     )
+    
+# ============================================================
+# ORDERS
+# ============================================================
 
+@owner_required
+def orders_list(request):
+
+    orders = (
+        Order.objects
+        .prefetch_related("items__product")
+        .order_by("-created_at")
+    )
+
+    search_query = request.GET.get(
+        "search",
+        "",
+    ).strip()
+
+    payment_filter = request.GET.get(
+        "payment_status",
+        "",
+    ).strip()
+
+    order_filter = request.GET.get(
+        "order_status",
+        "",
+    ).strip()
+
+    # --------------------------------------------------------
+    # SEARCH
+    # --------------------------------------------------------
+
+    if search_query:
+        orders = orders.filter(
+            Q(
+                order_number__icontains=search_query
+            )
+            | Q(
+                customer_name__icontains=search_query
+            )
+            | Q(
+                customer_email__icontains=search_query
+            )
+            | Q(
+                customer_phone__icontains=search_query
+            )
+        )
+
+    # --------------------------------------------------------
+    # PAYMENT STATUS FILTER
+    # --------------------------------------------------------
+
+    if payment_filter in [
+        "pending",
+        "paid",
+        "rejected",
+    ]:
+        orders = orders.filter(
+            payment_status=payment_filter
+        )
+
+    # --------------------------------------------------------
+    # ORDER STATUS FILTER
+    # --------------------------------------------------------
+
+    if order_filter in [
+        "pending",
+        "processing",
+        "shipped",
+        "completed",
+        "cancelled",
+    ]:
+        orders = orders.filter(
+            order_status=order_filter
+        )
+
+    return render(
+        request,
+        "owner/orders/list.html",
+        {
+            "orders": orders,
+            "search_query": search_query,
+            "payment_filter": payment_filter,
+            "order_filter": order_filter,
+        },
+    )
+
+
+@owner_required
+def order_detail(request, pk):
+
+    order = get_object_or_404(
+        Order.objects.prefetch_related(
+            "items__product"
+        ),
+        pk=pk,
+    )
+
+    return render(
+        request,
+        "owner/orders/detail.html",
+        {
+            "order": order,
+        },
+    )
+
+
+@owner_required
+def update_order_payment_status(request, pk):
+
+    if request.method != "POST":
+        return redirect(
+            "owner:order_detail",
+            pk=pk,
+        )
+
+    order = get_object_or_404(
+        Order,
+        pk=pk,
+    )
+
+    new_status = request.POST.get(
+        "payment_status"
+    )
+
+    allowed_statuses = [
+        "pending",
+        "paid",
+        "rejected",
+    ]
+
+    if new_status not in allowed_statuses:
+        messages.error(
+            request,
+            "Invalid payment status.",
+        )
+
+        return redirect(
+            "owner:order_detail",
+            pk=pk,
+        )
+
+    order.payment_status = new_status
+
+    if new_status == "paid":
+        order.payment_confirmed_at = timezone.now()
+    else:
+        order.payment_confirmed_at = None
+
+    order.save(
+        update_fields=[
+            "payment_status",
+            "payment_confirmed_at",
+            "updated_at",
+        ]
+    )
+
+    messages.success(
+        request,
+        (
+            f"Payment status updated to "
+            f"{order.get_payment_status_display()}."
+        ),
+    )
+
+    return redirect(
+        "owner:order_detail",
+        pk=pk,
+    )
+
+
+@owner_required
+def update_order_status(request, pk):
+
+    if request.method != "POST":
+        return redirect(
+            "owner:order_detail",
+            pk=pk,
+        )
+
+    order = get_object_or_404(
+        Order,
+        pk=pk,
+    )
+
+    new_status = request.POST.get(
+        "order_status"
+    )
+
+    allowed_statuses = [
+        "pending",
+        "processing",
+        "shipped",
+        "completed",
+        "cancelled",
+    ]
+
+    if new_status not in allowed_statuses:
+        messages.error(
+            request,
+            "Invalid order status.",
+        )
+
+        return redirect(
+            "owner:order_detail",
+            pk=pk,
+        )
+
+    order.order_status = new_status
+
+    order.save(
+        update_fields=[
+            "order_status",
+            "updated_at",
+        ]
+    )
+
+    messages.success(
+        request,
+        (
+            f"Order status updated to "
+            f"{order.get_order_status_display()}."
+        ),
+    )
+
+    return redirect(
+        "owner:order_detail",
+        pk=pk,
+    )
 
 # ============================================================
 # APPOINTMENT STATUS
@@ -1283,5 +1591,29 @@ def customer_detail(request, pk):
             "confirmed_count": confirmed_count,
             "completed_count": completed_count,
             "cancelled_count": cancelled_count,
+        },
+    )
+    
+
+@owner_required
+def business_settings(request):
+    settings, created = BusinessSettings.objects.get_or_create(pk=1)
+
+    if request.method == "POST":
+        form = BusinessSettingsForm(request.POST, instance=settings)
+
+        if form.is_valid():
+            form.save()
+            return redirect("owner:business_settings")
+
+    else:
+        form = BusinessSettingsForm(instance=settings)
+
+    return render(
+        request,
+        "owner/business_settings.html",
+        {
+            "form": form,
+            "business_settings": settings,
         },
     )

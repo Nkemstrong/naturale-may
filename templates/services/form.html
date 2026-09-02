@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <div>
+                <span class="section-label">
+                    Naturale May
+                </span>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+                    {% if service %}
+                        Update the information for this service.
+                    {% else %}
+                        Add a new service to your Naturale May website.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <a
+                    href="{% url 'owner:services_list' %}"
+                    class="dashboard-action"
+                >
+                    ← Back to Services
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+                    <span class="section-label">
+                        Service Management
+                    </span>
+
+                    <h2>
+                        Service Information
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <form
+                method="post"
+                enctype="multipart/form-data"
+                class="owner-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- FORM ERRORS -->
+                {% if form.non_field_errors %}
+
+                    <div class="dashboard-messages">
+
+                        {% for error in form.non_field_errors %}
+
+                            <div class="dashboard-message">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        Service Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+
+                        <div class="form-error">
+                            {{ form.name.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SLUG -->
+                <div class="form-group">
+
+                    <label for="{{ form.slug.id_for_label }}">
+                        Slug
+                    </label>
+
+                    {{ form.slug }}
+
+                    <small>
+                        Example: natural-hair-treatment
+                    </small>
+
+                    {% if form.slug.errors %}
+
+                        <div class="form-error">
+                            {{ form.slug.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% if form.description.errors %}
+
+                        <div class="form-error">
+                            {{ form.description.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="form-group">
+
+                    <label for="{{ form.price.id_for_label }}">
+                        Price (₦)
+                    </label>
+
+                    {{ form.price }}
+
+                    <small>
+                        Leave blank if the price is not fixed.
+                    </small>
+
+                    {% if form.price.errors %}
+
+                        <div class="form-error">
+                            {{ form.price.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DURATION -->
+                <div class="form-group">
+
+                    <label for="{{ form.duration.id_for_label }}">
+                        Duration
+                    </label>
+
+                    {{ form.duration }}
+
+                    <small>
+                        Example: 2 hours
+                    </small>
+
+                    {% if form.duration.errors %}
+
+                        <div class="form-error">
+                            {{ form.duration.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- IMAGE -->
+                <div class="form-group">
+
+                    <label for="{{ form.image.id_for_label }}">
+                        Service Image
+                    </label>
+
+                    {{ form.image }}
+
+                    {% if service and service.image %}
+
+                        <div class="current-image">
+
+                            <p>
+                                Current Image:
+                            </p>
+
+                            <img
+                                src="{{ service.image.url }}"
+                                alt="{{ service.name }}"
+                                style="max-width: 220px;"
+                            >
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if form.image.errors %}
+
+                        <div class="form-error">
+                            {{ form.image.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ACTIVE -->
+                <div class="form-checkbox">
+
+                    {{ form.is_active }}
+
+                    <label for="{{ form.is_active.id_for_label }}">
+                        Service is active
+                    </label>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'owner:services_list' %}"
+                        class="dashboard-action"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="dashboard-action confirm"
+                    >
+                        {{ submit_text }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

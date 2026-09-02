@@ -10,151 +10,93 @@ Owner Dashboard | Naturale May
 
     <div class="container">
 
-        <!-- =========================
-             DASHBOARD HEADER
-        ========================== -->
-        <nav
-            class="dashboard-nav"
-            aria-label="Owner dashboard navigation"
-        >
+        <div class="dashboard-header-actions">
 
+            <!-- Change Password -->
             <a
-                href="{% url 'owner:dashboard' %}"
-                class="dashboard-nav-link active"
+                href="{% url 'owner:change_password' %}"
+                class="dashboard-action"
             >
-                Dashboard
+                Change Password
             </a>
 
-            <a
-                href="{% url 'owner:customers_list' %}"
-                class="dashboard-nav-link"
-            >
-                Customers
-            </a>
-
-            <a
-                href="{% url 'owner:messages_list' %}"
-                class="dashboard-nav-link"
-            >
-                Messages
-            </a>
-
-            <a
-                href="{% url 'owner:services_list' %}"
-                class="dashboard-nav-link"
-            >
-                Services
-            </a>
-
-            <a
-                href="{% url 'owner:products_list' %}"
-                class="dashboard-nav-link"
-            >
-                Products
-            </a>
-
+            <!-- Logout -->
             <form
                 method="post"
                 action="{% url 'owner:logout' %}"
-                class="dashboard-logout-form"
+                class="logout-form"
             >
-
                 {% csrf_token %}
 
                 <button
                     type="submit"
-                    class="dashboard-nav-link dashboard-logout"
+                    class="dashboard-action cancel"
                 >
                     Logout
                 </button>
-
             </form>
 
-        </nav>
+            <!-- Messages -->
+            <a
+                href="{% url 'owner:messages_list' %}"
+                class="dashboard-action"
+            >
+                Messages
+            </a>
 
-        <div class="dashboard-header">
+            <!-- Services -->
+            <a
+                href="{% url 'owner:services_list' %}"
+                class="dashboard-action"
+            >
+                Services
+            </a>
 
-            <div>
-                <span class="section-label">
-                    Naturale May
-                </span>
+            <!-- Products -->
+            <a
+                href="{% url 'owner:products_list' %}"
+                class="dashboard-action confirm"
+            >
+                Products
+            </a>
 
-                <h1>
-                    Owner Dashboard
-                </h1>
-            <div class="dashboard-user">
+            <!-- Customers -->
+            <a
+                href="{% url 'owner:customers_list' %}"
+                class="dashboard-action"
+            >
+                Customers
+            </a>
 
-                <span class="dashboard-user-label">
-                    Signed in as
-                </span>
+            <!-- Orders -->
+            <a
+                href="{% url 'owner:orders_list' %}"
+                class="dashboard-action"
+            >
+                Orders
+            </a>
 
-                <strong>
-                    {{ request.user.get_full_name|default:request.user.username }}
-                </strong>
-
-            </div>
-
-                <p>
-                    Welcome back. Manage your appointments and keep
-                    track of your Naturale May business from here.
-                </p>
-            </div>
-
-            <div class="dashboard-header-actions">
-                <form
-                    method="post"
-                    action="{% url 'owner:logout' %}"
-                    class="logout-form" 
-                >
-                    {% csrf_token %}
-
-                    <button
-                        type="submit"
-                        class="dashboard-action cancel"
-                    >
-                        Logout
-                    </button>
-                </form>
-                <a
-                    href="{% url 'owner:messages_list' %}"
-                    class="dashboard-action"
-                >
-                    Messages
-                </a>
-
-                <a
-                    href="{% url 'owner:services_list' %}"
-                    class="dashboard-action"
-                >
-                    Services
-                </a>
-
-                <a
-                    href="{% url 'owner:products_list' %}"
-                    class="dashboard-action confirm"
-                >
-                    Products
-                </a>
-
-                <a
-                    href="{% url 'owner:customers_list' %}"
-                    class="dashboard-action"
-                >
-                    Customers
-                </a>
-
-            </div>
+            <!-- Business Settings -->
+            <a
+                href="{% url 'owner:business_settings' %}"
+                class="dashboard-action"
+            >
+                Business Settings
+            </a>
 
         </div>
+
 
         <!-- =========================
              OVERVIEW
         ========================== -->
+
         <div class="dashboard-section">
 
             <div class="dashboard-section-header">
 
                 <div>
+
                     <span class="section-label">
                         Overview
                     </span>
@@ -166,6 +108,7 @@ Owner Dashboard | Naturale May
                     <p>
                         A quick look at your appointment activity.
                     </p>
+
                 </div>
 
             </div>
@@ -211,9 +154,11 @@ Owner Dashboard | Naturale May
 
         </div>
 
+
         <!-- =========================
-     BUSINESS INSIGHTS
-========================== -->
+             BUSINESS INSIGHTS
+        ========================== -->
+
         <div class="dashboard-section">
 
             <div class="dashboard-section-header">
@@ -341,7 +286,10 @@ Owner Dashboard | Naturale May
 
             <!-- POPULAR SERVICE -->
 
-            <div class="dashboard-card" style="margin-top: 24px;">
+            <div
+                class="dashboard-card"
+                style="margin-top: 24px;"
+            >
 
                 <span class="section-label">
                     Most Booked Service
@@ -380,11 +328,13 @@ Owner Dashboard | Naturale May
         <!-- =========================
              TODAY'S APPOINTMENTS
         ========================== -->
+
         <div class="dashboard-section">
 
             <div class="dashboard-section-header">
 
                 <div>
+
                     <span class="section-label">
                         Today
                     </span>
@@ -396,6 +346,7 @@ Owner Dashboard | Naturale May
                     <p>
                         Appointments scheduled for today.
                     </p>
+
                 </div>
 
             </div>
@@ -490,6 +441,7 @@ Owner Dashboard | Naturale May
         <!-- =========================
              APPOINTMENT MANAGEMENT
         ========================== -->
+
         <div class="dashboard-section">
 
             <div class="dashboard-section-header">
@@ -513,9 +465,7 @@ Owner Dashboard | Naturale May
             </div>
 
 
-            <!-- =========================
-                 SEARCH & FILTERS
-            ========================== -->
+            <!-- SEARCH & FILTERS -->
 
             <form
                 method="get"
@@ -632,9 +582,7 @@ Owner Dashboard | Naturale May
             </form>
 
 
-            <!-- =========================
-                 APPOINTMENT TABLE
-            ========================== -->
+            <!-- APPOINTMENT TABLE -->
 
             {% if appointments %}
 
@@ -776,7 +724,6 @@ Owner Dashboard | Naturale May
                                     <td>
 
                                         <div class="appointment-actions">
-
 
                                             <!-- PENDING -->
 
@@ -962,177 +909,232 @@ Owner Dashboard | Naturale May
 
 
         <!-- =========================
-             FUTURE DASHBOARD SECTIONS
+             BUSINESS MANAGEMENT
         ========================== -->
 
-       <!-- =========================
-     BUSINESS MANAGEMENT
-========================== -->
         <div class="dashboard-section">
 
-    <div class="dashboard-section-header">
+            <div class="dashboard-section-header">
 
-        <div>
+                <div>
 
-            <span class="section-label">
-                Business Management
-            </span>
+                    <span class="section-label">
+                        Business Management
+                    </span>
 
-            <h2>
-                Manage Naturale May
-            </h2>
+                    <h2>
+                        Manage Naturale May
+                    </h2>
 
-            <p>
-                Manage appointments, customers, messages,
-                services and products from one place.
-            </p>
+                    <p>
+                        Manage appointments, customers, messages,
+                        services, products, orders and business settings
+                        from one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-management-grid">
+
+
+                <!-- APPOINTMENTS -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        📅
+                    </span>
+
+                    <h3>
+                        Appointments
+                    </h3>
+
+                    <p>
+                        Review bookings, confirm appointments,
+                        complete services and manage cancellations.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:dashboard' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Manage Appointments
+                    </a>
+
+                </div>
+
+
+                <!-- CUSTOMERS -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        👥
+                    </span>
+
+                    <h3>
+                        Customers
+                    </h3>
+
+                    <p>
+                        View customer profiles, contact information
+                        and appointment history.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:customers_list' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Manage Customers
+                    </a>
+
+                </div>
+
+
+                <!-- MESSAGES -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        💬
+                    </span>
+
+                    <h3>
+                        Messages
+                    </h3>
+
+                    <p>
+                        Read and manage messages submitted through
+                        the Naturale May contact form.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:messages_list' %}"
+                        class="dashboard-action confirm"
+                    >
+                        View Messages
+                    </a>
+
+                </div>
+
+
+                <!-- SERVICES -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        💇
+                    </span>
+
+                    <h3>
+                        Services
+                    </h3>
+
+                    <p>
+                        Add, edit and manage Naturale May's
+                        hair care services.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:services_list' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Manage Services
+                    </a>
+
+                </div>
+
+
+                <!-- PRODUCTS -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        🛍
+                    </span>
+
+                    <h3>
+                        Products
+                    </h3>
+
+                    <p>
+                        Manage products, images, prices and
+                        categories displayed in the shop.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:products_list' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Manage Products
+                    </a>
+
+                </div>
+
+
+                <!-- ORDERS -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        📦
+                    </span>
+
+                    <h3>
+                        Orders
+                    </h3>
+
+                    <p>
+                        Review customer orders, verify payments,
+                        update order status and manage purchases.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:orders_list' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Manage Orders
+                    </a>
+
+                </div>
+
+
+                <!-- BUSINESS SETTINGS -->
+
+                <div class="dashboard-management-card">
+
+                    <span class="management-icon">
+                        ⚙️
+                    </span>
+
+                    <h3>
+                        Business Settings
+                    </h3>
+
+                    <p>
+                        Manage your bank details, WhatsApp number,
+                        business contact information, address and
+                        customer payment instructions.
+                    </p>
+
+                    <a
+                        href="{% url 'owner:business_settings' %}"
+                        class="dashboard-action confirm"
+                    >
+                        Manage Settings
+                    </a>
+
+                </div>
+
+
+            </div>
 
         </div>
 
     </div>
-
-
-    <div class="dashboard-management-grid">
-
-
-        <div class="dashboard-management-card">
-
-            <span class="management-icon">
-                📅
-            </span>
-
-            <h3>
-                Appointments
-            </h3>
-
-            <p>
-                Review bookings, confirm appointments,
-                complete services and manage cancellations.
-            </p>
-
-            <a
-                href="{% url 'owner:dashboard' %}"
-                class="dashboard-action confirm"
-            >
-                Manage Appointments
-            </a>
-
-        </div>
-
-
-        <div class="dashboard-management-card">
-
-            <span class="management-icon">
-                👥
-            </span>
-
-            <h3>
-                Customers
-            </h3>
-
-            <p>
-                View customer profiles, contact information
-                and appointment history.
-            </p>
-
-            <a
-                href="{% url 'owner:customers_list' %}"
-                class="dashboard-action confirm"
-            >
-                Manage Customers
-            </a>
-
-        </div>
-
-
-        <div class="dashboard-management-card">
-
-            <span class="management-icon">
-                💬
-            </span>
-
-            <h3>
-                Messages
-            </h3>
-
-            <p>
-                Read and manage messages submitted through
-                the Naturale May contact form.
-            </p>
-
-            <a
-                href="{% url 'owner:messages_list' %}"
-                class="dashboard-action confirm"
-            >
-                View Messages
-            </a>
-
-        </div>
-
-
-        <div class="dashboard-management-card">
-
-            <span class="management-icon">
-                💇
-            </span>
-
-            <h3>
-                Services
-            </h3>
-
-            <p>
-                Add, edit and manage Naturale May's
-                hair care services.
-            </p>
-
-            <a
-                href="{% url 'owner:services_list' %}"
-                class="dashboard-action confirm"
-            >
-                Manage Services
-            </a>
-
-        </div>
-
-
-        <div class="dashboard-management-card">
-
-            <span class="management-icon">
-                🛍
-            </span>
-
-            <h3>
-                Products
-            </h3>
-
-            <p>
-                Manage products, images, prices and
-                categories displayed in the shop.
-            </p>
-
-            <a
-                href="{% url 'owner:products_list' %}"
-                class="dashboard-action confirm"
-            >
-                Manage Products
-            </a>
-
-        </div>
-
-
-        {% comment %}
-        <div class="dashboard-management-card">
-
-            <span class="management-icon">
-                ⚙️
-            </span>
-
-        </div>
-        {% endcomment %}
-
-    </div>
-
-</div>
 
 </section>
 

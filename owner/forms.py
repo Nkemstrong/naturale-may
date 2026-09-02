@@ -1,9 +1,14 @@
 from django import forms
 from django.db import models
-from django.db import models
 
+from .models import BusinessSettings
+
+from products.models import (
+    Product,
+    ProductCategory,
+    ProductImage,
+)
 from services.models import Service
-from products.models import Product, ProductCategory, ProductImage
 
 
 class ServiceForm(forms.ModelForm):
@@ -48,6 +53,7 @@ class ServiceForm(forms.ModelForm):
                 attrs={
                     "placeholder": "0.00",
                     "step": "0.01",
+                    "min": "0",
                 }
             ),
             "duration": forms.NumberInput(
@@ -134,6 +140,30 @@ class ProductForm(forms.ModelForm):
             "is_active": forms.CheckboxInput(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["category"].queryset = (
+            ProductCategory.objects
+            .filter(is_active=True)
+            .order_by("name")
+        )
+
+        # If editing a product whose category has been
+        # deactivated, keep that category available.
+        if self.instance and self.instance.pk:
+            current_category = self.instance.category
+
+            if current_category and not current_category.is_active:
+                self.fields["category"].queryset = (
+                    ProductCategory.objects
+                    .filter(
+                        models.Q(is_active=True)
+                        | models.Q(pk=current_category.pk)
+                    )
+                    .order_by("name")
+                )
+
 
 class ProductCategoryForm(forms.ModelForm):
     class Meta:
@@ -185,112 +215,61 @@ class ProductImageForm(forms.ModelForm):
             ),
         }
         
-class ProductForm(forms.ModelForm):
-
+class BusinessSettingsForm(forms.ModelForm):
     class Meta:
-        model = Product
+        model = BusinessSettings
         fields = [
-            "category",
-            "name",
-            "slug",
-            "short_description",
-            "description",
-            "price",
-            "stock_status",
-            "ingredients",
-            "benefits",
-            "usage_instructions",
-            "main_image",
-            "is_featured",
-            "is_active",
+            "bank_name",
+            "account_name",
+            "account_number",
+            "whatsapp_number",
+            "business_phone",
+            "business_email",
+            "business_address",
+            "payment_instructions",
         ]
 
         widgets = {
-            "category": forms.Select(),
-
-            "name": forms.TextInput(
+            "bank_name": forms.TextInput(
                 attrs={
-                    "placeholder": "e.g. Natural Hair Growth Oil",
+                    "placeholder": "e.g. Wema Bank",
                 }
             ),
-
-            "slug": forms.TextInput(
+            "account_name": forms.TextInput(
                 attrs={
-                    "placeholder": "e.g. natural-hair-growth-oil",
+                    "placeholder": "e.g. Naturale May Business Enterprise",
                 }
             ),
-
-            "short_description": forms.TextInput(
+            "account_number": forms.TextInput(
                 attrs={
-                    "placeholder": "Short description of the product",
+                    "placeholder": "e.g. 0423979574",
                 }
             ),
-
-            "description": forms.Textarea(
+            "whatsapp_number": forms.TextInput(
+                attrs={
+                    "placeholder": "e.g. 2347037305041",
+                }
+            ),
+            "business_phone": forms.TextInput(
+                attrs={
+                    "placeholder": "Business phone number",
+                }
+            ),
+            "business_email": forms.EmailInput(
+                attrs={
+                    "placeholder": "Business email address",
+                }
+            ),
+            "business_address": forms.Textarea(
+                attrs={
+                    "rows": 3,
+                    "placeholder": "e.g. 46 Aba-Owerri Road, close to Brass Junction, Aba",
+                }
+            ),
+            "payment_instructions": forms.Textarea(
                 attrs={
                     "rows": 5,
-                    "placeholder": "Describe the product...",
+                    "placeholder": "Add any instructions customers should follow after making payment...",
                 }
             ),
-
-            "price": forms.NumberInput(
-                attrs={
-                    "placeholder": "0.00",
-                    "step": "0.01",
-                    "min": "0",
-                }
-            ),
-
-            "stock_status": forms.Select(),
-
-            "ingredients": forms.Textarea(
-                attrs={
-                    "rows": 4,
-                    "placeholder": "List the ingredients...",
-                }
-            ),
-
-            "benefits": forms.Textarea(
-                attrs={
-                    "rows": 4,
-                    "placeholder": "Describe the benefits...",
-                }
-            ),
-
-            "usage_instructions": forms.Textarea(
-                attrs={
-                    "rows": 4,
-                    "placeholder": "Explain how customers should use this product...",
-                }
-            ),
-
-            "main_image": forms.ClearableFileInput(),
-
-            "is_featured": forms.CheckboxInput(),
-
-            "is_active": forms.CheckboxInput(),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["category"].queryset = (
-            ProductCategory.objects
-            .filter(is_active=True)
-            .order_by("name")
-        )
-
-        # If editing a product whose category has been
-        # deactivated, keep that category available.
-        if self.instance and self.instance.pk:
-            current_category = self.instance.category
-
-            if current_category and not current_category.is_active:
-                self.fields["category"].queryset = (
-                    ProductCategory.objects
-                    .filter(
-                        models.Q(is_active=True)
-                        | models.Q(pk=current_category.pk)
-                    )
-                    .order_by("name")
-                )

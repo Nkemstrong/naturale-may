@@ -35,28 +35,31 @@
 
                 </div>
 
-
                 <!-- PRODUCT THUMBNAILS -->
-                {% if product.images.all %}
+                {% with gallery_images=product.images.all %}
 
-                    <div class="product-thumbnails">
+                    {% if gallery_images %}
 
-                        {% for image in product.images.all %}
+                        <div class="product-thumbnails">
 
-                            <div class="product-thumbnail">
+                            {% for image in gallery_images %}
 
-                                <img
-                                    src="{{ image.image.url }}"
-                                    alt="{{ image.alt_text|default:product.name }}"
-                                >
+                                <div class="product-thumbnail">
 
-                            </div>
+                                    <img
+                                        src="{{ image.image.url }}"
+                                        alt="{{ image.alt_text|default:product.name }}"
+                                    >
 
-                        {% endfor %}
+                                </div>
 
-                    </div>
+                            {% endfor %}
 
-                {% endif %}
+                        </div>
+
+                    {% endif %}
+
+                {% endwith %}
 
             </div>
 
@@ -64,15 +67,17 @@
             <!-- PRODUCT INFORMATION -->
             <div class="product-information">
 
-                <span class="product-category">
-                    {{ product.category.name }}
-                </span>
+                {% if product.category %}
 
+                    <span class="product-category">
+                        {{ product.category.name }}
+                    </span>
+
+                {% endif %}
 
                 <h1>
                     {{ product.name }}
                 </h1>
-
 
                 {% if product.short_description %}
 
@@ -115,45 +120,66 @@
                 </div>
 
 
-                <!-- WHATSAPP ORDER -->
+                <!-- SHOPPING ACTIONS -->
                 {% if product.stock_status == "in_stock" %}
 
-                    <a
-                        href="{{ whatsapp_url }}"
-                        class="product-whatsapp-btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                    <div class="product-actions">
 
-                        <span>
-                            Order via WhatsApp
-                        </span>
+                        <!-- ADD TO CART -->
+                        <form
+                            method="post"
+                            action="{% url 'products:add_to_cart' product.id %}"
+                            class="add-to-cart-form"
+                        >
 
-                        <span>
-                            →
-                        </span>
+                            {% csrf_token %}
 
-                    </a>
+                            <button
+                                type="submit"
+                                class="product-cart-btn"
+                            >
+                                <span>
+                                    Add to Cart
+                                </span>
+
+                                <span aria-hidden="true">
+                                    +
+                                </span>
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- VIEW CART -->
+                        <a
+                            href="{% url 'products:cart' %}"
+                            class="product-view-cart-btn"
+                        >
+
+                            <span>
+                                View Shopping Cart
+                            </span>
+
+                            <span aria-hidden="true">
+                                →
+                            </span>
+
+                        </a>
+
+                    </div>
 
 
                 {% elif product.stock_status == "coming_soon" %}
 
-                    <a
-                        href="{{ whatsapp_url }}"
-                        class="product-whatsapp-btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                    <div class="product-coming-soon-message">
 
-                        <span>
-                            Ask About This Product
-                        </span>
+                        <p>
+                            This product is coming soon.
+                            Please check back shortly.
+                        </p>
 
-                        <span>
-                            →
-                        </span>
-
-                    </a>
+                    </div>
 
                 {% endif %}
 
@@ -182,7 +208,6 @@
 
         <!-- PRODUCT DETAILS -->
         <div class="product-details">
-
 
             <!-- BENEFITS -->
             {% if product.benefits %}
@@ -248,6 +273,26 @@
                 </div>
 
             {% endif %}
+
+        </div>
+
+
+        <!-- SHOPPING CONTINUE -->
+        <div class="product-shopping-footer">
+
+            <a
+                href="{% url 'products:shop' %}"
+                class="btn btn-secondary"
+            >
+                ← Continue Shopping
+            </a>
+
+            <a
+                href="{% url 'products:cart' %}"
+                class="btn btn-primary"
+            >
+                View Cart →
+            </a>
 
         </div>
 

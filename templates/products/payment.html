@@ -1,0 +1,526 @@
+{% extends "base.html" %}
+
+{% block title %}Payment | Naturale May{% endblock %}
+
+{% block content %}
+
+<style>
+    .payment-page {
+        padding: 70px 0 100px;
+        background: #faf9f5;
+    }
+
+    .payment-container {
+        width: min(1000px, 92%);
+        margin: 0 auto;
+    }
+
+    .payment-header {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .payment-eyebrow {
+        color: #a66a35;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .payment-header h1 {
+        color: #1e3a26;
+        font-size: clamp(42px, 6vw, 68px);
+        line-height: 1;
+        margin: 0 0 15px;
+    }
+
+    .payment-header p {
+        color: #666;
+        max-width: 650px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+
+    .order-card {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        padding: 35px;
+        margin-bottom: 25px;
+    }
+
+    .order-card-title {
+        color: #1e3a26;
+        font-size: 29px;
+        margin: 0 0 25px;
+    }
+
+    .order-info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .order-info-item {
+        background: #f7f5ef;
+        padding: 18px;
+    }
+
+    .order-info-label {
+        color: #777;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+    }
+
+    .order-info-value {
+        color: #1e3a26;
+        font-size: 18px;
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+    .bank-card {
+        background: #1e3a26;
+        color: #fff;
+        padding: 40px;
+        margin-bottom: 25px;
+    }
+
+    .bank-eyebrow {
+        color: #dca56c;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .bank-card h2 {
+        color: #fff;
+        font-size: 40px;
+        margin: 8px 0 10px;
+    }
+
+    .bank-description {
+        color: rgba(255, 255, 255, .8);
+        margin-bottom: 30px;
+        line-height: 1.7;
+    }
+
+    .bank-details {
+        display: grid;
+        gap: 0;
+        border: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .bank-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, .14);
+    }
+
+    .bank-row:last-child {
+        border-bottom: 0;
+    }
+
+    .bank-label {
+        color: rgba(255, 255, 255, .65);
+    }
+
+    .bank-value {
+        color: #fff;
+        font-weight: 700;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    .account-number {
+        letter-spacing: 1px;
+        font-size: 18px;
+    }
+
+    .payment-amount {
+        margin-top: 25px;
+        padding: 20px;
+        background: rgba(255, 255, 255, .08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .payment-amount strong {
+        color: #dca56c;
+        font-size: 25px;
+    }
+
+    .payment-instructions {
+        margin-top: 20px;
+        padding: 18px 20px;
+        background: rgba(255, 255, 255, .07);
+        border-left: 3px solid #dca56c;
+        color: rgba(255, 255, 255, .82);
+        line-height: 1.7;
+        white-space: pre-line;
+    }
+
+    .receipt-card {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        padding: 35px;
+        text-align: center;
+    }
+
+    .receipt-card h2 {
+        color: #1e3a26;
+        font-size: 36px;
+        margin: 0 0 10px;
+    }
+
+    .receipt-card p {
+        color: #666;
+        max-width: 650px;
+        margin: 0 auto 25px;
+        line-height: 1.7;
+    }
+
+    .whatsapp-btn {
+        display: inline-block;
+        background: #1e3a26;
+        color: #fff;
+        padding: 16px 25px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .2s ease;
+        border: 1px solid #1e3a26;
+    }
+
+    .whatsapp-btn:hover {
+        background: #294b31;
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    .receipt-note {
+        color: #777;
+        font-size: 13px;
+        margin-top: 15px;
+        line-height: 1.6;
+    }
+
+    .important-note {
+        margin-top: 25px;
+        background: #f4f1e9;
+        border-left: 4px solid #a66a35;
+        padding: 18px;
+        color: #555;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    .important-note strong {
+        color: #1e3a26;
+    }
+
+    .payment-footer-links {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .payment-footer-links a {
+        color: #1e3a26;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    .payment-footer-links a:hover {
+        color: #a66a35;
+    }
+
+    @media (max-width: 700px) {
+        .payment-page {
+            padding: 45px 0 70px;
+        }
+
+        .order-card,
+        .bank-card,
+        .receipt-card {
+            padding: 25px;
+        }
+
+        .order-info {
+            grid-template-columns: 1fr;
+        }
+
+        .bank-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 7px;
+        }
+
+        .bank-value {
+            text-align: left;
+        }
+
+        .payment-amount {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .payment-amount strong {
+            font-size: 22px;
+        }
+    }
+</style>
+
+<section class="payment-page">
+
+    <div class="payment-container">
+
+        <!-- PAGE HEADER -->
+
+        <div class="payment-header">
+
+            <div class="payment-eyebrow">
+                Order received
+            </div>
+
+            <h1>
+                Complete Your Payment
+            </h1>
+
+            <p>
+                Thank you for shopping with Naturale May.
+                Your order has been received and is currently
+                awaiting payment confirmation.
+            </p>
+
+        </div>
+
+
+        <!-- ORDER INFORMATION -->
+
+        <div class="order-card">
+
+            <h2 class="order-card-title">
+                Order Details
+            </h2>
+
+            <div class="order-info">
+
+                <div class="order-info-item">
+
+                    <div class="order-info-label">
+                        Order Number
+                    </div>
+
+                    <div class="order-info-value">
+                        {{ order.order_number }}
+                    </div>
+
+                </div>
+
+
+                <div class="order-info-item">
+
+                    <div class="order-info-label">
+                        Customer
+                    </div>
+
+                    <div class="order-info-value">
+                        {{ order.customer_name }}
+                    </div>
+
+                </div>
+
+
+                <div class="order-info-item">
+
+                    <div class="order-info-label">
+                        Amount to Pay
+                    </div>
+
+                    <div class="order-info-value">
+                        ₦{{ order.total_amount|floatformat:2 }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BANK TRANSFER -->
+
+        <div class="bank-card">
+
+            <div class="bank-eyebrow">
+                Payment method
+            </div>
+
+            <h2>
+                Bank Transfer
+            </h2>
+
+            <p class="bank-description">
+                Please transfer the exact amount below to the
+                Naturale May account using the details provided.
+            </p>
+
+
+            <div class="bank-details">
+
+                <!-- BANK NAME -->
+
+                <div class="bank-row">
+
+                    <span class="bank-label">
+                        Bank Name
+                    </span>
+
+                    <span class="bank-value">
+                        {{ business_settings.bank_name|default:"Wema Bank" }}
+                    </span>
+
+                </div>
+
+
+                <!-- ACCOUNT NAME -->
+
+                <div class="bank-row">
+
+                    <span class="bank-label">
+                        Account Name
+                    </span>
+
+                    <span class="bank-value">
+                        {{ business_settings.account_name|default:"Naturale May Business Enterprise" }}
+                    </span>
+
+                </div>
+
+
+                <!-- ACCOUNT NUMBER -->
+
+                <div class="bank-row">
+
+                    <span class="bank-label">
+                        Account Number
+                    </span>
+
+                    <span class="bank-value account-number">
+                        {{ business_settings.account_number|default:"0423979574" }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT AMOUNT -->
+
+            <div class="payment-amount">
+
+                <span>
+                    Amount to transfer
+                </span>
+
+                <strong>
+                    ₦{{ order.total_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <!-- PAYMENT INSTRUCTIONS -->
+
+            {% if business_settings.payment_instructions %}
+
+                <div class="payment-instructions">
+                    {{ business_settings.payment_instructions }}
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- RECEIPT -->
+
+        <div class="receipt-card">
+
+            <h2>
+                Already Made Payment?
+            </h2>
+
+            <p>
+                After completing the bank transfer, send your
+                payment receipt directly to Naturale May on
+                WhatsApp so your payment can be verified.
+            </p>
+
+
+            {% if whatsapp_url and whatsapp_url != "#" %}
+
+                <a
+                    href="{{ whatsapp_url }}"
+                    class="whatsapp-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Send Payment Receipt on WhatsApp
+                </a>
+
+                <div class="receipt-note">
+                    When WhatsApp opens, attach your bank-transfer
+                    receipt and send it to Naturale May.
+                </div>
+
+            {% else %}
+
+                <div class="important-note">
+
+                    <strong>WhatsApp unavailable.</strong>
+
+                    Please contact Naturale May directly with
+                    your order number and payment receipt.
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="important-note">
+
+                <strong>Important:</strong>
+
+                Your order will remain pending until Naturale May
+                verifies your payment.
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER LINKS -->
+
+        <div class="payment-footer-links">
+
+            <a href="{% url 'products:shop' %}">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

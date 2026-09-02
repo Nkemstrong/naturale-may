@@ -7035,3 +7035,129 @@ p {
     }
 
 }
+
+/* =========================================
+   CHANGE PASSWORD PAGE
+   ========================================= */
+
+.change-password-page {
+    min-height: 70vh;
+    padding: 40px 20px;
+}
+
+.change-password-card {
+    max-width: 620px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+}
+
+.change-password-card .card-body {
+    padding: 40px;
+}
+
+.change-password-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #171717;
+    margin-bottom: 8px;
+}
+
+.change-password-subtitle {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+/* Form labels */
+
+.change-password-card .form-label {
+    color: #252525;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* Password inputs */
+
+.change-password-card .form-control {
+    min-height: 48px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.change-password-card .form-control:focus {
+    border-color: #222;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Help text */
+
+.change-password-card .form-text {
+    margin-top: 7px;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Error messages */
+
+.change-password-card .text-danger {
+    font-size: 13px;
+}
+
+.change-password-card .alert {
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+/* Buttons */
+
+.change-password-card .btn-dark {
+    min-height: 46px;
+    border-radius: 9px;
+    padding: 10px 22px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.change-password-card .btn-dark:hover {
+    transform: translateY(-1px);
+}
+
+.change-password-card .btn-outline-secondary {
+    min-height: 46px;
+    border-radius: 9px;
+    padding: 10px 22px;
+    font-weight: 500;
+}
+
+/* Mobile */
+
+@media (max-width: 576px) {
+
+    .change-password-page {
+        padding: 25px 15px;
+    }
+
+    .change-password-card .card-body {
+        padding: 25px 20px;
+    }
+
+    .change-password-title {
+        font-size: 24px;
+    }
+
+    .change-password-card .d-flex {
+        flex-direction: column;
+    }
+
+    .change-password-card .btn {
+        width: 100%;
+    }
+}

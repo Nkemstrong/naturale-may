@@ -7,6 +7,7 @@ app_name = "owner"
 
 
 urlpatterns = [
+
     # ========================================================
     # AUTHENTICATION
     # ========================================================
@@ -23,6 +24,13 @@ urlpatterns = [
         name="logout",
     ),
 
+    path(
+        "change-password/",
+        views.change_password,
+        name="change_password",
+    ),
+
+
     # ========================================================
     # DASHBOARD
     # ========================================================
@@ -32,12 +40,19 @@ urlpatterns = [
         views.dashboard,
         name="dashboard",
     ),
+    
+    path(
+        "settings/",
+        views.business_settings,
+        name="business_settings",
+    ),
 
     path(
         "appointments/<int:pk>/status/",
         views.update_appointment_status,
         name="appointment_status",
     ),
+
 
     # ========================================================
     # SERVICES
@@ -72,6 +87,7 @@ urlpatterns = [
         views.service_delete,
         name="service_delete",
     ),
+
 
     # ========================================================
     # PRODUCTS
@@ -113,6 +129,7 @@ urlpatterns = [
         name="product_delete",
     ),
 
+
     # ========================================================
     # PRODUCT CATEGORIES
     # ========================================================
@@ -147,6 +164,7 @@ urlpatterns = [
         name="category_delete",
     ),
 
+
     # ========================================================
     # PRODUCT GALLERY
     # ========================================================
@@ -174,6 +192,7 @@ urlpatterns = [
         views.product_image_delete,
         name="product_image_delete",
     ),
+
 
     # ========================================================
     # MESSAGES
@@ -203,6 +222,7 @@ urlpatterns = [
         name="message_delete",
     ),
 
+
     # ========================================================
     # CUSTOMERS
     # ========================================================
@@ -217,5 +237,34 @@ urlpatterns = [
         "customers/<int:pk>/",
         views.customer_detail,
         name="customer_detail",
+    ),
+
+
+    # ========================================================
+    # ORDERS
+    # ========================================================
+
+    path(
+        "orders/",
+        views.orders_list,
+        name="orders_list",
+    ),
+
+    path(
+        "orders/<int:pk>/",
+        views.order_detail,
+        name="order_detail",
+    ),
+
+    path(
+        "orders/<int:pk>/payment-status/",
+        views.update_order_payment_status,
+        name="update_order_payment_status",
+    ),
+
+    path(
+        "orders/<int:pk>/status/",
+        views.update_order_status,
+        name="update_order_status",
     ),
 ]

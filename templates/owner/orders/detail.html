@@ -1,0 +1,634 @@
+{% extends "owner/dashboard.html" %}
+
+{% block title %}Order {{ order.order_number }} | Naturale May{% endblock %}
+
+{% block content %}
+
+<style>
+    .order-detail-page {
+        padding: 30px;
+    }
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .back-link {
+        display: inline-block;
+        color: #1e3a26;
+        font-weight: 700;
+        text-decoration: none;
+        margin-bottom: 15px;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .page-header h1 {
+        color: #1e3a26;
+        margin: 0 0 8px;
+        font-size: 32px;
+    }
+
+    .page-header p {
+        color: #777;
+        margin: 0;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+        gap: 25px;
+        align-items: start;
+    }
+
+    .card {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .card:last-child {
+        margin-bottom: 0;
+    }
+
+    .card h2 {
+        color: #1e3a26;
+        margin: 0 0 20px;
+        font-size: 22px;
+    }
+
+    .order-items {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .order-items th {
+        background: #f7f5ef;
+        color: #666;
+        text-align: left;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        padding: 13px;
+    }
+
+    .order-items td {
+        padding: 15px 13px;
+        border-bottom: 1px solid #eeeae1;
+        vertical-align: middle;
+    }
+
+    .order-items tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .product-name {
+        color: #1e3a26;
+        font-weight: 700;
+    }
+
+    .product-price {
+        color: #555;
+        white-space: nowrap;
+    }
+
+    .item-total {
+        color: #1e3a26;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        margin-top: 10px;
+        border-top: 2px solid #1e3a26;
+        font-weight: 700;
+    }
+
+    .order-total strong {
+        color: #1e3a26;
+        font-size: 24px;
+    }
+
+    .customer-details {
+        display: grid;
+        gap: 18px;
+    }
+
+    .detail-item label {
+        display: block;
+        color: #777;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        margin-bottom: 5px;
+    }
+
+    .detail-item div {
+        color: #333;
+        line-height: 1.6;
+        word-break: break-word;
+    }
+
+    .status-card {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .status-card h2 {
+        color: #1e3a26;
+        margin: 0 0 18px;
+        font-size: 21px;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 8px 12px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        margin-bottom: 18px;
+    }
+
+    .pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .paid,
+    .completed {
+        background: #dff3e5;
+        color: #216e39;
+    }
+
+    .rejected,
+    .cancelled {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .processing,
+    .shipped {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .status-form {
+        display: grid;
+        gap: 10px;
+    }
+
+    .status-form label {
+        color: #666;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .status-form select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px;
+        border: 1px solid #ddd8cd;
+        background: #fff;
+        font: inherit;
+    }
+
+    .status-btn {
+        border: 0;
+        background: #1e3a26;
+        color: #fff;
+        padding: 12px 15px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .status-btn:hover {
+        background: #294b31;
+    }
+
+    .whatsapp-link {
+        display: block;
+        text-align: center;
+        background: #1e3a26;
+        color: #fff;
+        text-decoration: none;
+        padding: 13px 15px;
+        font-weight: 700;
+        margin-top: 15px;
+    }
+
+    .whatsapp-link:hover {
+        background: #294b31;
+        color: #fff;
+    }
+
+    .order-meta {
+        color: #777;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .payment-warning {
+        background: #fff3cd;
+        border-left: 4px solid #d39e00;
+        padding: 15px;
+        color: #664d03;
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+
+    .payment-success {
+        background: #dff3e5;
+        border-left: 4px solid #2f7d46;
+        padding: 15px;
+        color: #216e39;
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+
+    @media (max-width: 900px) {
+        .order-detail-page {
+            padding: 20px;
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .order-items-wrapper {
+            overflow-x: auto;
+        }
+
+        .order-items {
+            min-width: 600px;
+        }
+    }
+</style>
+
+<div class="order-detail-page">
+
+    <div class="page-header">
+
+        <a
+            href="{% url 'owner:orders_list' %}"
+            class="back-link"
+        >
+            ← Back to Orders
+        </a>
+
+        <h1>
+            Order {{ order.order_number }}
+        </h1>
+
+        <p>
+            Placed on {{ order.created_at|date:"d F Y" }}
+            at {{ order.created_at|date:"h:i A" }}
+        </p>
+
+    </div>
+
+    <div class="detail-grid">
+
+        <!-- LEFT COLUMN -->
+
+        <div>
+
+            <!-- ORDER ITEMS -->
+
+            <div class="card">
+
+                <h2>Order Items</h2>
+
+                <div class="order-items-wrapper">
+
+                    <table class="order-items">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for item in order.items.all %}
+
+                                <tr>
+
+                                    <td>
+                                        <div class="product-name">
+                                            {{ item.product.name }}
+                                        </div>
+                                    </td>
+
+                                    <td class="product-price">
+                                        ₦{{ item.price|floatformat:2 }}
+                                    </td>
+
+                                    <td>
+                                        {{ item.quantity }}
+                                    </td>
+
+                                    <td class="item-total">
+                                        ₦{{ item.subtotal|floatformat:2 }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="order-total">
+
+                    <span>
+                        Order Total
+                    </span>
+
+                    <strong>
+                        ₦{{ order.total_amount|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <!-- CUSTOMER -->
+
+            <div class="card">
+
+                <h2>Customer Information</h2>
+
+                <div class="customer-details">
+
+                    <div class="detail-item">
+                        <label>Name</label>
+                        <div>{{ order.customer_name }}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Email</label>
+                        <div>{{ order.customer_email }}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Phone</label>
+                        <div>{{ order.customer_phone }}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Delivery Address</label>
+                        <div>
+                            {{ order.delivery_address|linebreaksbr }}
+                        </div>
+                    </div>
+
+                </div>
+
+                {% if order.customer_phone %}
+
+                    <a
+                        href="https://wa.me/{{ order.customer_phone }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="whatsapp-link"
+                    >
+                        Contact Customer on WhatsApp
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+
+        <div>
+
+            <!-- PAYMENT STATUS -->
+
+            <div class="status-card">
+
+                <h2>Payment Status</h2>
+
+                {% if order.payment_status == "paid" %}
+
+                    <div class="payment-success">
+                        <strong>Payment confirmed.</strong><br>
+                        This order has been marked as paid.
+                    </div>
+
+                {% elif order.payment_status == "rejected" %}
+
+                    <div class="payment-warning">
+                        <strong>Payment rejected.</strong><br>
+                        The payment has not been approved.
+                    </div>
+
+                {% else %}
+
+                    <div class="payment-warning">
+                        <strong>Payment pending.</strong><br>
+                        Verify the customer's bank-transfer receipt
+                        before marking this order as paid.
+                    </div>
+
+                {% endif %}
+
+                <div>
+                    <span class="status-badge {{ order.payment_status }}">
+                        {{ order.get_payment_status_display }}
+                    </span>
+                </div>
+
+                <form
+                    method="post"
+                    action="{% url 'owner:update_order_payment_status' order.pk %}"
+                    class="status-form"
+                >
+
+                    {% csrf_token %}
+
+                    <label for="payment_status">
+                        Update Payment
+                    </label>
+
+                    <select
+                        name="payment_status"
+                        id="payment_status"
+                    >
+                        <option
+                            value="pending"
+                            {% if order.payment_status == "pending" %}selected{% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="paid"
+                            {% if order.payment_status == "paid" %}selected{% endif %}
+                        >
+                            Paid
+                        </option>
+
+                        <option
+                            value="rejected"
+                            {% if order.payment_status == "rejected" %}selected{% endif %}
+                        >
+                            Rejected
+                        </option>
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="status-btn"
+                    >
+                        Update Payment Status
+                    </button>
+
+                </form>
+
+                {% if order.payment_confirmed_at %}
+
+                    <div class="order-meta" style="margin-top: 15px;">
+                        Payment confirmed:
+                        {{ order.payment_confirmed_at|date:"d M Y, h:i A" }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <!-- ORDER STATUS -->
+
+            <div class="status-card">
+
+                <h2>Order Status</h2>
+
+                <div>
+                    <span class="status-badge {{ order.order_status }}">
+                        {{ order.get_order_status_display }}
+                    </span>
+                </div>
+
+                <form
+                    method="post"
+                    action="{% url 'owner:update_order_status' order.pk %}"
+                    class="status-form"
+                >
+
+                    {% csrf_token %}
+
+                    <label for="order_status">
+                        Update Order
+                    </label>
+
+                    <select
+                        name="order_status"
+                        id="order_status"
+                    >
+                        <option
+                            value="pending"
+                            {% if order.order_status == "pending" %}selected{% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="processing"
+                            {% if order.order_status == "processing" %}selected{% endif %}
+                        >
+                            Processing
+                        </option>
+
+                        <option
+                            value="shipped"
+                            {% if order.order_status == "shipped" %}selected{% endif %}
+                        >
+                            Shipped
+                        </option>
+
+                        <option
+                            value="completed"
+                            {% if order.order_status == "completed" %}selected{% endif %}
+                        >
+                            Completed
+                        </option>
+
+                        <option
+                            value="cancelled"
+                            {% if order.order_status == "cancelled" %}selected{% endif %}
+                        >
+                            Cancelled
+                        </option>
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="status-btn"
+                    >
+                        Update Order Status
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- ORDER META -->
+
+            <div class="status-card">
+
+                <h2>Order Information</h2>
+
+                <div class="order-meta">
+
+                    <strong>Order Number:</strong><br>
+                    {{ order.order_number }}
+
+                    <br><br>
+
+                    <strong>Created:</strong><br>
+                    {{ order.created_at|date:"d F Y, h:i A" }}
+
+                    {% if order.updated_at %}
+
+                        <br><br>
+
+                        <strong>Last Updated:</strong><br>
+                        {{ order.updated_at|date:"d F Y, h:i A" }}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

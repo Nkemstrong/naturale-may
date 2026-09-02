@@ -44,6 +44,8 @@ if not SECRET_KEY:
 
 
 # DEBUG defaults to False for production safety.
+# DEBUG defaults to False for production safety.
+
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
@@ -409,8 +411,8 @@ LOGOUT_REDIRECT_URL = "core:home"
 # Natural May WhatsApp
 # ---------------------------------------------------------
 
-NATURAL_MAY_WHATSAPP = os.getenv(
-    "NATURAL_MAY_WHATSAPP",
+NATURALE_MAY_WHATSAPP = os.getenv(
+    "NATURALE_MAY_WHATSAPP",
     "",
 )
 

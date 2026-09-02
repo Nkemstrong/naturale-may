@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}
+Business Settings | Naturale May
+{% endblock %}
+
+{% block content %}
+
+<section class="owner-dashboard">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <div>
+                    <span class="section-label">
+                        Settings
+                    </span>
+
+                    <h1>
+                        Business Settings
+                    </h1>
+
+                    <p>
+                        Manage the business information used across
+                        Naturale May, including payment and contact details.
+                    </p>
+                </div>
+
+                <div class="dashboard-header-actions">
+
+                    <a
+                        href="{% url 'owner:dashboard' %}"
+                        class="dashboard-action"
+                    >
+                        ← Dashboard
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Settings Form -->
+        <div class="dashboard-section">
+
+            <form
+                method="post"
+                class="owner-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- =========================
+                     PAYMENT INFORMATION
+                ========================== -->
+
+                <div class="dashboard-section-header">
+
+                    <div>
+                        <span class="section-label">
+                            Payment
+                        </span>
+
+                        <h2>
+                            Payment Information
+                        </h2>
+
+                        <p>
+                            These details will appear on the customer payment page.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- Bank Name -->
+                    <div class="form-group">
+
+                        <label for="{{ form.bank_name.id_for_label }}">
+                            Bank Name
+                        </label>
+
+                        {{ form.bank_name }}
+
+                        {% if form.bank_name.errors %}
+                            <div class="form-error">
+                                {{ form.bank_name.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Account Name -->
+                    <div class="form-group">
+
+                        <label for="{{ form.account_name.id_for_label }}">
+                            Account Name
+                        </label>
+
+                        {{ form.account_name }}
+
+                        {% if form.account_name.errors %}
+                            <div class="form-error">
+                                {{ form.account_name.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Account Number -->
+                    <div class="form-group">
+
+                        <label for="{{ form.account_number.id_for_label }}">
+                            Account Number
+                        </label>
+
+                        {{ form.account_number }}
+
+                        {% if form.account_number.errors %}
+                            <div class="form-error">
+                                {{ form.account_number.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- WhatsApp -->
+                    <div class="form-group">
+
+                        <label for="{{ form.whatsapp_number.id_for_label }}">
+                            WhatsApp Number
+                        </label>
+
+                        {{ form.whatsapp_number }}
+
+                        <small>
+                            Use international format without +, spaces or dashes.
+                            Example: 2347037305041
+                        </small>
+
+                        {% if form.whatsapp_number.errors %}
+                            <div class="form-error">
+                                {{ form.whatsapp_number.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     BUSINESS CONTACT
+                ========================== -->
+
+                <div class="dashboard-section-header form-section-header">
+
+                    <div>
+                        <span class="section-label">
+                            Contact
+                        </span>
+
+                        <h2>
+                            Business Contact Information
+                        </h2>
+
+                        <p>
+                            Contact details customers can use to reach Naturale May.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- Phone -->
+                    <div class="form-group">
+
+                        <label for="{{ form.business_phone.id_for_label }}">
+                            Business Phone
+                        </label>
+
+                        {{ form.business_phone }}
+
+                        {% if form.business_phone.errors %}
+                            <div class="form-error">
+                                {{ form.business_phone.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="form-group">
+
+                        <label for="{{ form.business_email.id_for_label }}">
+                            Business Email
+                        </label>
+
+                        {{ form.business_email }}
+
+                        {% if form.business_email.errors %}
+                            <div class="form-error">
+                                {{ form.business_email.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Address -->
+                    <div class="form-group full-width">
+
+                        <label for="{{ form.business_address.id_for_label }}">
+                            Business Address
+                        </label>
+
+                        {{ form.business_address }}
+
+                        {% if form.business_address.errors %}
+                            <div class="form-error">
+                                {{ form.business_address.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     PAYMENT INSTRUCTIONS
+                ========================== -->
+
+                <div class="dashboard-section-header form-section-header">
+
+                    <div>
+                        <span class="section-label">
+                            Instructions
+                        </span>
+
+                        <h2>
+                            Payment Instructions
+                        </h2>
+
+                        <p>
+                            Tell customers what to do after making their bank transfer.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="{{ form.payment_instructions.id_for_label }}">
+                        Instructions
+                    </label>
+
+                    {{ form.payment_instructions }}
+
+                    {% if form.payment_instructions.errors %}
+                        <div class="form-error">
+                            {{ form.payment_instructions.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =========================
+                     ACTIONS
+                ========================== -->
+
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'owner:dashboard' %}"
+                        class="dashboard-action"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="dashboard-action confirm"
+                    >
+                        Save Settings
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

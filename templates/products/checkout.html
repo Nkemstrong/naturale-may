@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout | Naturale May{% endblock %}
+
+{% block content %}
+
+<style>
+    .checkout-page {
+        background: #faf9f5;
+        padding: 70px 0 100px;
+    }
+
+    .checkout-container {
+        width: min(1180px, 92%);
+        margin: 0 auto;
+    }
+
+    .checkout-header {
+        margin-bottom: 45px;
+    }
+
+    .checkout-eyebrow {
+        color: #a66a35;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .checkout-header h1 {
+        color: #1e3a26;
+        font-size: clamp(45px, 6vw, 72px);
+        line-height: 1;
+        margin: 0;
+    }
+
+    .checkout-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(320px, .8fr);
+        gap: 40px;
+        align-items: start;
+    }
+
+    .checkout-card {
+        background: #fff;
+        border: 1px solid #e7e3da;
+        padding: 42px;
+    }
+
+    .checkout-card h2 {
+        color: #1e3a26;
+        font-size: 32px;
+        margin: 0 0 10px;
+    }
+
+    .checkout-card-intro {
+        color: #666;
+        margin-bottom: 32px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        display: block;
+        color: #1e3a26;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #d8d3c9;
+        background: #fff;
+        padding: 15px 16px;
+        font-family: inherit;
+        font-size: 15px;
+        color: #333;
+        outline: none;
+        transition: border-color .2s ease;
+    }
+
+    .form-group input {
+        height: 52px;
+    }
+
+    .form-group textarea {
+        min-height: 125px;
+        resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #1e3a26;
+    }
+
+    .required {
+        color: #a66a35;
+    }
+
+    .delivery-note {
+        background: #f5f1e8;
+        padding: 16px 18px;
+        margin-bottom: 28px;
+        color: #555;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .place-order-btn {
+        width: 100%;
+        border: 0;
+        background: #1e3a26;
+        color: #fff;
+        padding: 18px 25px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .2s ease;
+    }
+
+    .place-order-btn:hover {
+        background: #294b31;
+    }
+
+    .back-cart {
+        display: inline-block;
+        margin-top: 20px;
+        color: #1e3a26;
+        font-size: 14px;
+        text-decoration: underline;
+    }
+
+    .order-summary {
+        background: #1e3a26;
+        color: #fff;
+        padding: 35px;
+        position: sticky;
+        top: 30px;
+    }
+
+    .summary-eyebrow {
+        color: #dca56c;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .order-summary h2 {
+        color: #fff;
+        font-size: 38px;
+        margin: 0 0 30px;
+    }
+
+    .summary-item {
+        display: grid;
+        grid-template-columns: 70px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .summary-item-image {
+        width: 70px;
+        height: 75px;
+        overflow: hidden;
+        background: #f1efe9;
+    }
+
+    .summary-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .summary-item-name {
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .summary-item-quantity {
+        font-size: 13px;
+        opacity: .75;
+    }
+
+    .summary-item-price {
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding-top: 8px;
+        font-size: 21px;
+        font-weight: 700;
+    }
+
+    .payment-note {
+        margin-top: 28px;
+        background: rgba(255,255,255,.08);
+        padding: 18px;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+        .checkout-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .order-summary {
+            position: static;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .checkout-page {
+            padding: 45px 0 70px;
+        }
+
+        .checkout-card {
+            padding: 25px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: auto;
+        }
+
+        .order-summary {
+            padding: 25px;
+        }
+    }
+</style>
+
+<section class="checkout-page">
+
+    <div class="checkout-container">
+
+        <div class="checkout-header">
+            <div class="checkout-eyebrow">Complete your order</div>
+            <h1>Checkout</h1>
+        </div>
+
+        <div class="checkout-layout">
+
+            <!-- CUSTOMER DETAILS -->
+
+            <div class="checkout-card">
+
+                <h2>Your Details</h2>
+
+                <p class="checkout-card-intro">
+                    Please provide your contact and delivery information.
+                </p>
+
+                <div class="delivery-note">
+                    Your information will be used to process your order and
+                    arrange delivery. After submitting this form, you will
+                    receive your order number and bank-transfer payment
+                    instructions.
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="customer_name">
+                                Full Name <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customer_name"
+                                name="customer_name"
+                                value="{{ form_data.customer_name|default:'' }}"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="customer_phone">
+                                Phone Number <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="customer_phone"
+                                name="customer_phone"
+                                value="{{ form_data.customer_phone|default:'' }}"
+                                placeholder="08012345678"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group full-width">
+
+                            <label for="customer_email">
+                                Email Address <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="email"
+                                id="customer_email"
+                                name="customer_email"
+                                value="{{ form_data.customer_email|default:'' }}"
+                                placeholder="you@example.com"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group full-width">
+
+                            <label for="delivery_address">
+                                Delivery Address / Location
+                                <span class="required">*</span>
+                            </label>
+
+                            <textarea
+                                id="delivery_address"
+                                name="delivery_address"
+                                placeholder="Enter your full delivery address, area, city and any useful landmark"
+                                required
+                            >{{ form_data.delivery_address|default:'' }}</textarea>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="place-order-btn"
+                    >
+                        Continue to Payment →
+                    </button>
+
+                </form>
+
+                <a
+                    href="{% url 'products:cart' %}"
+                    class="back-cart"
+                >
+                    ← Back to Cart
+                </a>
+
+            </div>
+
+
+            <!-- ORDER SUMMARY -->
+
+            <aside class="order-summary">
+
+                <div class="summary-eyebrow">
+                    Order summary
+                </div>
+
+                <h2>Your Order</h2>
+
+                {% for item in cart_items %}
+
+                <div class="summary-item">
+
+                    <div class="summary-item-image">
+
+                        <img
+                            src="{{ item.product.main_image.url }}"
+                            alt="{{ item.product.name }}"
+                        >
+
+                    </div>
+
+                    <div>
+
+                        <div class="summary-item-name">
+                            {{ item.product.name }}
+                        </div>
+
+                        <div class="summary-item-quantity">
+                            Quantity: {{ item.quantity }}
+                        </div>
+
+                    </div>
+
+                    <div class="summary-item-price">
+                        ₦{{ item.subtotal|floatformat:2 }}
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+                <div class="summary-total">
+
+                    <span>Total</span>
+
+                    <span>
+                        ₦{{ cart_total|floatformat:2 }}
+                    </span>
+
+                </div>
+
+                <div class="payment-note">
+                    <strong>Payment method</strong><br><br>
+
+                    Bank transfer. After you submit your details,
+                    we will provide the account information for payment.
+                    You will then send your transfer receipt to
+                    Naturale May on WhatsApp.
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
