@@ -10,9 +10,12 @@ Owner Dashboard | Naturale May
 
     <div class="container">
 
+        <!-- =====================================================
+             DASHBOARD ACTIONS
+        ====================================================== -->
+
         <div class="dashboard-header-actions">
 
-            <!-- Change Password -->
             <a
                 href="{% url 'owner:change_password' %}"
                 class="dashboard-action"
@@ -20,7 +23,6 @@ Owner Dashboard | Naturale May
                 Change Password
             </a>
 
-            <!-- Logout -->
             <form
                 method="post"
                 action="{% url 'owner:logout' %}"
@@ -36,7 +38,6 @@ Owner Dashboard | Naturale May
                 </button>
             </form>
 
-            <!-- Messages -->
             <a
                 href="{% url 'owner:messages_list' %}"
                 class="dashboard-action"
@@ -44,7 +45,6 @@ Owner Dashboard | Naturale May
                 Messages
             </a>
 
-            <!-- Services -->
             <a
                 href="{% url 'owner:services_list' %}"
                 class="dashboard-action"
@@ -52,7 +52,6 @@ Owner Dashboard | Naturale May
                 Services
             </a>
 
-            <!-- Products -->
             <a
                 href="{% url 'owner:products_list' %}"
                 class="dashboard-action confirm"
@@ -60,7 +59,6 @@ Owner Dashboard | Naturale May
                 Products
             </a>
 
-            <!-- Customers -->
             <a
                 href="{% url 'owner:customers_list' %}"
                 class="dashboard-action"
@@ -68,7 +66,6 @@ Owner Dashboard | Naturale May
                 Customers
             </a>
 
-            <!-- Orders -->
             <a
                 href="{% url 'owner:orders_list' %}"
                 class="dashboard-action"
@@ -76,7 +73,6 @@ Owner Dashboard | Naturale May
                 Orders
             </a>
 
-            <!-- Business Settings -->
             <a
                 href="{% url 'owner:business_settings' %}"
                 class="dashboard-action"
@@ -87,9 +83,9 @@ Owner Dashboard | Naturale May
         </div>
 
 
-        <!-- =========================
-             OVERVIEW
-        ========================== -->
+        <!-- =====================================================
+             BUSINESS OVERVIEW
+        ====================================================== -->
 
         <div class="dashboard-section">
 
@@ -114,40 +110,190 @@ Owner Dashboard | Naturale May
             </div>
 
 
-            <div class="dashboard-stats">
+            <div class="premium-insights-grid">
 
                 <!-- TODAY -->
-                <div class="dashboard-stat">
-                    <span>Today's Appointments</span>
-                    <strong>{{ today_count }}</strong>
+
+                <div class="premium-insight-card insight-today">
+
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            📅
+                        </span>
+
+                        <span class="insight-badge">
+                            Today
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Today's Appointments
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ today_count }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Appointments scheduled for today.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
+
                 </div>
 
 
                 <!-- PENDING -->
-                <div class="dashboard-stat">
-                    <span>Pending Bookings</span>
-                    <strong>{{ pending_count }}</strong>
+
+                <div class="premium-insight-card insight-pending">
+
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            ⏳
+                        </span>
+
+                        <span class="insight-badge">
+                            Pending
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Pending Bookings
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ pending_count }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Bookings waiting for confirmation.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
+
                 </div>
 
 
                 <!-- CONFIRMED -->
-                <div class="dashboard-stat">
-                    <span>Confirmed Bookings</span>
-                    <strong>{{ confirmed_count }}</strong>
+
+                <div class="premium-insight-card insight-confirmed">
+
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            ✓
+                        </span>
+
+                        <span class="insight-badge">
+                            Confirmed
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Confirmed Bookings
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ confirmed_count }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Appointments confirmed with customers.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
+
                 </div>
 
 
                 <!-- COMPLETED -->
-                <div class="dashboard-stat">
-                    <span>Completed</span>
-                    <strong>{{ completed_count }}</strong>
+
+                <div class="premium-insight-card insight-completed">
+
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            ★
+                        </span>
+
+                        <span class="insight-badge">
+                            Completed
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Completed
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ completed_count }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Services successfully completed.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
+
                 </div>
 
 
                 <!-- CANCELLED -->
-                <div class="dashboard-stat">
-                    <span>Cancelled</span>
-                    <strong>{{ cancelled_count }}</strong>
+
+                <div class="premium-insight-card insight-cancelled">
+
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            ×
+                        </span>
+
+                        <span class="insight-badge">
+                            Cancelled
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Cancelled
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ cancelled_count }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Appointments cancelled by customers or staff.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
+
                 </div>
 
             </div>
@@ -155,9 +301,9 @@ Owner Dashboard | Naturale May
         </div>
 
 
-        <!-- =========================
+        <!-- =====================================================
              BUSINESS INSIGHTS
-        ========================== -->
+        ====================================================== -->
 
         <div class="dashboard-section">
 
@@ -182,152 +328,321 @@ Owner Dashboard | Naturale May
             </div>
 
 
-            <div class="dashboard-stats">
+            <div class="premium-insights-grid business-insights-grid">
 
                 <!-- CUSTOMERS -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        Total Customers
-                    </span>
+                <div class="premium-insight-card insight-customers">
 
-                    <strong>
-                        {{ total_customers }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            👥
+                        </span>
+
+                        <span class="insight-badge">
+                            Customers
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Total Customers
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ total_customers }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Customers who have interacted with your business.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
 
                 <!-- PRODUCTS -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        Products
-                    </span>
+                <div class="premium-insight-card insight-products">
 
-                    <strong>
-                        {{ total_products }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            🛍
+                        </span>
+
+                        <span class="insight-badge">
+                            Products
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Products
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ total_products }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Products currently managed in your shop.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
 
                 <!-- SERVICES -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        Services
-                    </span>
+                <div class="premium-insight-card insight-services">
 
-                    <strong>
-                        {{ total_services }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            💇
+                        </span>
+
+                        <span class="insight-badge">
+                            Services
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Services
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ total_services }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Hair care and beauty services available.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
 
                 <!-- APPOINTMENTS -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        Total Appointments
-                    </span>
+                <div class="premium-insight-card insight-appointments">
 
-                    <strong>
-                        {{ total_appointments }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            📋
+                        </span>
+
+                        <span class="insight-badge">
+                            Bookings
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Total Appointments
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ total_appointments }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Total appointments recorded in the system.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
 
                 <!-- THIS MONTH -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        This Month
-                    </span>
+                <div class="premium-insight-card insight-month">
 
-                    <strong>
-                        {{ this_month_appointments }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            📈
+                        </span>
+
+                        <span class="insight-badge">
+                            This Month
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            This Month
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ this_month_appointments }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Appointments recorded during the current month.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
 
                 <!-- MESSAGES -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        Total Messages
-                    </span>
+                <div class="premium-insight-card insight-messages">
 
-                    <strong>
-                        {{ total_messages }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            💬
+                        </span>
+
+                        <span class="insight-badge">
+                            Messages
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Total Messages
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ total_messages }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Messages received through the contact form.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
 
                 <!-- UNREAD -->
-                <div class="dashboard-stat">
 
-                    <span>
-                        Unread Messages
-                    </span>
+                <div class="premium-insight-card insight-unread">
 
-                    <strong>
-                        {{ unread_messages }}
-                    </strong>
+                    <div class="insight-card-top">
+
+                        <span class="insight-icon">
+                            ●
+                        </span>
+
+                        <span class="insight-badge">
+                            Attention
+                        </span>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <span class="insight-label">
+                            Unread Messages
+                        </span>
+
+                        <strong class="insight-number">
+                            {{ unread_messages }}
+                        </strong>
+
+                        <span class="insight-description">
+                            Messages that still need your attention.
+                        </span>
+
+                    </div>
+
+                    <span class="insight-decoration"></span>
 
                 </div>
 
             </div>
 
 
-            <!-- POPULAR SERVICE -->
+            <!-- MOST BOOKED SERVICE -->
 
             <div
-                class="dashboard-card"
+                class="premium-popular-service"
                 style="margin-top: 24px;"
             >
 
-                <span class="section-label">
-                    Most Booked Service
-                </span>
+                <div class="popular-service-icon">
+                    ✨
+                </div>
 
-                {% if popular_service and popular_service.booking_count > 0 %}
+                <div class="popular-service-content">
 
-                    <h3>
-                        {{ popular_service.name }}
-                    </h3>
+                    <span class="section-label">
+                        Most Booked Service
+                    </span>
 
-                    <p>
-                        {{ popular_service.booking_count }}
-                        booking{{ popular_service.booking_count|pluralize }}
-                        so far.
-                    </p>
+                    {% if popular_service and popular_service.booking_count > 0 %}
 
-                {% else %}
+                        <h3>
+                            {{ popular_service.name }}
+                        </h3>
 
-                    <h3>
-                        No bookings yet
-                    </h3>
+                        <p>
+                            {{ popular_service.booking_count }}
+                            booking{{ popular_service.booking_count|pluralize }}
+                            so far.
+                        </p>
 
-                    <p>
-                        Your most popular service will appear here once customers
-                        begin making appointments.
-                    </p>
+                    {% else %}
 
-                {% endif %}
+                        <h3>
+                            No bookings yet
+                        </h3>
+
+                        <p>
+                            Your most popular service will appear here once customers
+                            begin making appointments.
+                        </p>
+
+                    {% endif %}
+
+                </div>
 
             </div>
 
         </div>
 
 
-        <!-- =========================
+        <!-- =====================================================
              TODAY'S APPOINTMENTS
-        ========================== -->
+        ====================================================== -->
 
         <div class="dashboard-section">
 
@@ -369,7 +684,6 @@ Owner Dashboard | Naturale May
 
                         </thead>
 
-
                         <tbody>
 
                             {% for appointment in today_appointments %}
@@ -388,16 +702,13 @@ Owner Dashboard | Naturale May
 
                                     </td>
 
-
                                     <td>
                                         {{ appointment.service.name }}
                                     </td>
 
-
                                     <td>
                                         {{ appointment.appointment_time|time:"g:i A" }}
                                     </td>
-
 
                                     <td>
 
@@ -438,9 +749,9 @@ Owner Dashboard | Naturale May
         </div>
 
 
-        <!-- =========================
+        <!-- =====================================================
              APPOINTMENT MANAGEMENT
-        ========================== -->
+        ====================================================== -->
 
         <div class="dashboard-section">
 
@@ -472,8 +783,6 @@ Owner Dashboard | Naturale May
                 class="dashboard-filters"
             >
 
-                <!-- SEARCH -->
-
                 <div class="dashboard-filter-field">
 
                     <label for="search">
@@ -490,8 +799,6 @@ Owner Dashboard | Naturale May
 
                 </div>
 
-
-                <!-- STATUS -->
 
                 <div class="dashboard-filter-field">
 
@@ -541,8 +848,6 @@ Owner Dashboard | Naturale May
                 </div>
 
 
-                <!-- DATE -->
-
                 <div class="dashboard-filter-field">
 
                     <label for="date">
@@ -558,8 +863,6 @@ Owner Dashboard | Naturale May
 
                 </div>
 
-
-                <!-- BUTTONS -->
 
                 <div class="dashboard-filter-actions">
 
@@ -725,8 +1028,6 @@ Owner Dashboard | Naturale May
 
                                         <div class="appointment-actions">
 
-                                            <!-- PENDING -->
-
                                             {% if appointment.status == "pending" %}
 
                                                 <form
@@ -774,8 +1075,6 @@ Owner Dashboard | Naturale May
 
                                                 </form>
 
-
-                                            <!-- CONFIRMED -->
 
                                             {% elif appointment.status == "confirmed" %}
 
@@ -825,16 +1124,12 @@ Owner Dashboard | Naturale May
                                                 </form>
 
 
-                                            <!-- COMPLETED -->
-
                                             {% elif appointment.status == "completed" %}
 
                                                 <span class="action-muted">
                                                     Completed
                                                 </span>
 
-
-                                            <!-- CANCELLED -->
 
                                             {% elif appointment.status == "cancelled" %}
 
@@ -908,9 +1203,9 @@ Owner Dashboard | Naturale May
         </div>
 
 
-        <!-- =========================
+        <!-- =====================================================
              BUSINESS MANAGEMENT
-        ========================== -->
+        ====================================================== -->
 
         <div class="dashboard-section">
 
@@ -938,7 +1233,6 @@ Owner Dashboard | Naturale May
 
 
             <div class="dashboard-management-grid">
-
 
                 <!-- APPOINTMENTS -->
 
@@ -1128,7 +1422,6 @@ Owner Dashboard | Naturale May
                     </a>
 
                 </div>
-
 
             </div>
 
