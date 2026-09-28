@@ -32,10 +32,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security / Debug
 # ---------------------------------------------------------
 
-# IMPORTANT:
-# No hard-coded secret key.
-# Set SECRET_KEY in your .env or production environment.
-SECRET_KEY = "+5fr+kxeik5+4+k45cmdz24xxj90u%#vfon0!_4sauzc9qib8b"
+# Never hard-code this value. Set SECRET_KEY in .env locally and in the
+# Railway service variables for production.
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 if not SECRET_KEY:
     raise RuntimeError(
@@ -62,6 +61,12 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# Railway supplies this hostname at runtime. Custom domains should still be
+# added explicitly through the ALLOWED_HOSTS environment variable.
+RAILWAY_PUBLIC_DOMAIN = os.getenv("RAILWAY_PUBLIC_DOMAIN")
+if RAILWAY_PUBLIC_DOMAIN and RAILWAY_PUBLIC_DOMAIN not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
+
 
 # ---------------------------------------------------------
 # CSRF trusted origins
@@ -75,6 +80,11 @@ CSRF_TRUSTED_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+
+if RAILWAY_PUBLIC_DOMAIN:
+    railway_origin = f"https://{RAILWAY_PUBLIC_DOMAIN}"
+    if railway_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(railway_origin)
 
 
 # ---------------------------------------------------------
@@ -355,7 +365,11 @@ TESTING = os.getenv("DJANGO_TEST", "").lower() == "true"
 # does not make HTTPS requests by default.
 import sys
 
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = (
+    os.getenv("SECURE_SSL_REDIRECT", "True").lower() == "true"
+    and not DEBUG
+    and not TESTING
+)
 
 SESSION_COOKIE_SECURE = (
     os.getenv("SESSION_COOKIE_SECURE", "True").lower() == "true"
