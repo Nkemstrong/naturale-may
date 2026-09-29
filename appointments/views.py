@@ -1,10 +1,10 @@
 from urllib.parse import quote
 
 from django.conf import settings
-from django.core.mail import send_mail
 from django.db import IntegrityError, transaction
 from django.shortcuts import render, redirect
 
+from core.notifications import send_owner_whatsapp
 from .forms import AppointmentForm
 from .models import Customer, Appointment
 
@@ -39,26 +39,19 @@ def book_appointment(request):
                         notes=form.cleaned_data["notes"],
                     )
 
-                if settings.OWNER_NOTIFICATION_EMAIL:
-                    send_mail(
-                        subject=(
-                            "New appointment: "
-                            f"{appointment.customer.full_name} - "
-                            f"{appointment.service.name}"
-                        ),
-                        message=(
-                            f"Name: {appointment.customer.full_name}\n"
-                            f"Phone: {appointment.customer.phone}\n"
-                            f"Email: {appointment.customer.email}\n"
-                            f"Service: {appointment.service.name}\n"
-                            f"Date: {appointment.appointment_date}\n"
-                            f"Time: {appointment.appointment_time}\n"
-                            f"Notes: {appointment.notes}\n"
-                        ),
-                        from_email=None,
-                        recipient_list=[settings.OWNER_NOTIFICATION_EMAIL],
-                        fail_silently=True,
+                send_owner_whatsapp(
+                    "*Naturale May - New appointment*\n\n"
+                    f"Name: {appointment.customer.full_name}\n"
+                    f"Phone: {appointment.customer.phone}\n"
+                    f"Email: {appointment.customer.email}\n"
+                    f"Service: {appointment.service.name}\n"
+                    f"Date: {appointment.appointment_date.strftime('%B %d, %Y')}\n"
+                    f"Time: {appointment.appointment_time.strftime('%I:%M %p')}\n"
+                    + (
+                        f"Notes: {appointment.notes}\n"
+                        if appointment.notes else ""
                     )
+                )
 
                 whatsapp_number = getattr(
                     settings,

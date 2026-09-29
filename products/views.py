@@ -5,10 +5,10 @@ from urllib.parse import quote
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
+from core.notifications import send_owner_whatsapp
 from .models import Order, OrderItem, Product
 
 
@@ -410,24 +410,21 @@ def checkout(request):
                     subtotal=item["subtotal"],
                 )
 
-        if settings.OWNER_NOTIFICATION_EMAIL:
-            send_mail(
-                subject=(
-                    f"New order {order.order_number} - "
-                    f"{order.customer_name}"
-                ),
-                message=(
-                    f"Order: {order.order_number}\n"
-                    f"Customer: {order.customer_name}\n"
-                    f"Email: {order.customer_email}\n"
-                    f"Phone: {order.customer_phone}\n"
-                    f"Address: {order.delivery_address}\n"
-                    f"Total: ₦{order.total_amount:,.2f}\n"
-                ),
-                from_email=None,
-                recipient_list=[settings.OWNER_NOTIFICATION_EMAIL],
-                fail_silently=True,
-            )
+        items_text = "\n".join(
+            f"- {item['product'].name} x{item['quantity']} "
+            f"(₦{item['subtotal']:,.2f})"
+            for item in cart_items
+        )
+
+        send_owner_whatsapp(
+            f"*Naturale May - New order {order.order_number}*\n\n"
+            f"Customer: {order.customer_name}\n"
+            f"Phone: {order.customer_phone}\n"
+            f"Email: {order.customer_email}\n"
+            f"Address: {order.delivery_address}\n\n"
+            f"Items:\n{items_text}\n\n"
+            f"Total: ₦{order.total_amount:,.2f}"
+        )
 
         request.session["cart"] = {}
         request.session.modified = True

@@ -203,36 +203,6 @@ else:
 
 
 # ---------------------------------------------------------
-# Email
-# ---------------------------------------------------------
-
-# Where owner notifications (new contact / order / appointment) are sent.
-OWNER_NOTIFICATION_EMAIL = os.getenv("OWNER_NOTIFICATION_EMAIL", "")
-
-EMAIL_HOST = os.getenv("EMAIL_HOST", "")
-
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
-
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
-
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
-
-EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False").lower() == "true"
-
-EMAIL_BACKEND = os.getenv(
-    "EMAIL_BACKEND",
-    "django.core.mail.backends.smtp.EmailBackend",
-)
-
-# Without SMTP credentials, log emails to the console rather than
-# crashing customer-facing flows on a connection error.
-if not EMAIL_HOST:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-
-# ---------------------------------------------------------
 # Default email settings
 # ---------------------------------------------------------
 
@@ -409,8 +379,23 @@ LOGOUT_REDIRECT_URL = "core:home"
 # Natural May WhatsApp
 # ---------------------------------------------------------
 
+# Business number used for the "chat with us" wa.me links.
 NATURALE_MAY_WHATSAPP = os.getenv(
     "NATURALE_MAY_WHATSAPP",
+    "",
+)
+
+# Owner alert channel via CallMeBot (new contact / order / appointment).
+# OWNER_WHATSAPP_NUMBER must be in international format without "+"
+# (e.g. 2348031234567). The API key is issued by CallMeBot after the
+# owner messages +34 644 51 95 23 once on WhatsApp.
+OWNER_WHATSAPP_NUMBER = os.getenv(
+    "OWNER_WHATSAPP_NUMBER",
+    "",
+)
+
+WHATSAPP_APIKEY = os.getenv(
+    "WHATSAPP_APIKEY",
     "",
 )
 
