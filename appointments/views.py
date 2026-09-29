@@ -38,7 +38,11 @@ def book_appointment(request):
                         notes=form.cleaned_data["notes"],
                     )
 
-                whatsapp_number = settings.NATURAL_MAY_WHATSAPP
+                whatsapp_number = getattr(
+                    settings,
+                    "NATURALE_MAY_WHATSAPP",
+                    "",
+                )
 
                 message = (
                     "Hello Naturale May! 👋\n\n"
