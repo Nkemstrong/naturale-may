@@ -206,51 +206,30 @@ else:
 # Email
 # ---------------------------------------------------------
 
-# Django 6.1 MAILERS configuration.
-#
-# Production should use SMTP.
-# All credentials come from environment variables.
+# Where owner notifications (new contact / order / appointment) are sent.
+OWNER_NOTIFICATION_EMAIL = os.getenv("OWNER_NOTIFICATION_EMAIL", "")
 
-MAILERS = {
-    "default": {
-        "BACKEND": os.getenv(
-            "EMAIL_BACKEND",
-            "django.core.mail.backends.smtp.EmailBackend",
-        ),
+EMAIL_HOST = os.getenv("EMAIL_HOST", "")
 
-        "HOST": os.getenv(
-            "EMAIL_HOST",
-            "",
-        ),
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
 
-        "PORT": int(
-            os.getenv(
-                "EMAIL_PORT",
-                "587",
-            )
-        ),
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 
-        "USERNAME": os.getenv(
-            "EMAIL_HOST_USER",
-            "",
-        ),
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
-        "PASSWORD": os.getenv(
-            "EMAIL_HOST_PASSWORD",
-            "",
-        ),
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
 
-        "USE_TLS": os.getenv(
-            "EMAIL_USE_TLS",
-            "True",
-        ).lower() == "true",
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False").lower() == "true"
 
-        "USE_SSL": os.getenv(
-            "EMAIL_USE_SSL",
-            "False",
-        ).lower() == "true",
-    }
-}
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend",
+)
+
+# Without SMTP credentials, log emails to the console rather than
+# crashing customer-facing flows on a connection error.
+if not EMAIL_HOST:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # ---------------------------------------------------------

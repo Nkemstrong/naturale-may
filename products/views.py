@@ -5,6 +5,7 @@ from urllib.parse import quote
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -408,6 +409,25 @@ def checkout(request):
                     price=item["product"].price,
                     subtotal=item["subtotal"],
                 )
+
+        if settings.OWNER_NOTIFICATION_EMAIL:
+            send_mail(
+                subject=(
+                    f"New order {order.order_number} - "
+                    f"{order.customer_name}"
+                ),
+                message=(
+                    f"Order: {order.order_number}\n"
+                    f"Customer: {order.customer_name}\n"
+                    f"Email: {order.customer_email}\n"
+                    f"Phone: {order.customer_phone}\n"
+                    f"Address: {order.delivery_address}\n"
+                    f"Total: ₦{order.total_amount:,.2f}\n"
+                ),
+                from_email=None,
+                recipient_list=[settings.OWNER_NOTIFICATION_EMAIL],
+                fail_silently=True,
+            )
 
         request.session["cart"] = {}
         request.session.modified = True
