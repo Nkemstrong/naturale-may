@@ -1,14 +1,12 @@
 from owner.models import BusinessSettings
 
 from decimal import Decimal
-from urllib.parse import quote
 
-from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
-from core.notifications import send_owner_whatsapp
+from core.whatsapp import whatsapp_url
 from .models import Order, OrderItem, Product
 
 
@@ -38,32 +36,18 @@ def product_detail(request, slug):
         is_active=True,
     )
 
-    whatsapp_number = getattr(
-        settings,
-        "NATURALE_MAY_WHATSAPP",
-        "",
-    )
-
     message = (
         f"Hello Naturale May, I would like to order {product.name}. "
         f"The listed price is ₦{product.price:,.2f}. "
         "Please let me know how I can proceed with my order."
     )
 
-    if whatsapp_number:
-        whatsapp_url = (
-            f"https://wa.me/{whatsapp_number}"
-            f"?text={quote(message)}"
-        )
-    else:
-        whatsapp_url = "#"
-
     return render(
         request,
         "products/detail.html",
         {
             "product": product,
-            "whatsapp_url": whatsapp_url,
+            "whatsapp_url": whatsapp_url(message) or "#",
         },
     )
 
@@ -410,22 +394,6 @@ def checkout(request):
                     subtotal=item["subtotal"],
                 )
 
-        items_text = "\n".join(
-            f"- {item['product'].name} x{item['quantity']} "
-            f"(₦{item['subtotal']:,.2f})"
-            for item in cart_items
-        )
-
-        send_owner_whatsapp(
-            f"*Naturale May - New order {order.order_number}*\n\n"
-            f"Customer: {order.customer_name}\n"
-            f"Phone: {order.customer_phone}\n"
-            f"Email: {order.customer_email}\n"
-            f"Address: {order.delivery_address}\n\n"
-            f"Items:\n{items_text}\n\n"
-            f"Total: ₦{order.total_amount:,.2f}"
-        )
-
         request.session["cart"] = {}
         request.session.modified = True
 
@@ -447,44 +415,27 @@ def checkout(request):
 def payment(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
 
-    # Get business settings from the owner dashboard
+    # Business settings drive the bank details shown on this page.
     business_settings = BusinessSettings.objects.filter(pk=1).first()
 
-    # Use dashboard WhatsApp number first, then fall back to .env
-    whatsapp_number = ""
-
-    if business_settings and business_settings.whatsapp_number:
-        whatsapp_number = business_settings.whatsapp_number
-    else:
-        whatsapp_number = getattr(
-            settings,
-            "NATURALE_MAY_WHATSAPP",
-            ""
-        )
-
-    # Clean WhatsApp number
-    whatsapp_number = "".join(
-        char for char in str(whatsapp_number)
-        if char.isdigit()
+    items_text = "\n".join(
+        f"- {item.product.name} x{item.quantity} "
+        f"(₦{item.subtotal:,.2f})"
+        for item in order.items.all()
     )
 
-    # WhatsApp message
     message = (
         f"Hello Naturale May,\n\n"
-        f"I have made payment for my order.\n\n"
+        f"I have placed an order and made payment.\n\n"
         f"Order Number: {order.order_number}\n"
-        f"Customer Name: {order.customer_name}\n"
-        f"Amount Paid: ₦{order.total_amount:,.2f}\n\n"
+        f"Name: {order.customer_name}\n"
+        f"Phone: {order.customer_phone}\n"
+        f"Email: {order.customer_email}\n"
+        f"Delivery Address: {order.delivery_address}\n\n"
+        f"Items:\n{items_text}\n\n"
+        f"Total: ₦{order.total_amount:,.2f}\n\n"
         f"I will attach my payment receipt here for verification."
     )
-
-    whatsapp_url = ""
-
-    if whatsapp_number:
-        whatsapp_url = (
-            f"https://wa.me/{whatsapp_number}"
-            f"?text={quote(message)}"
-        )
 
     return render(
         request,
@@ -492,6 +443,6 @@ def payment(request, order_number):
         {
             "order": order,
             "business_settings": business_settings,
-            "whatsapp_url": whatsapp_url,
+            "whatsapp_url": whatsapp_url(message),
         },
     )

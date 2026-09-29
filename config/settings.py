@@ -379,23 +379,12 @@ LOGOUT_REDIRECT_URL = "core:home"
 # Natural May WhatsApp
 # ---------------------------------------------------------
 
-# Business number used for the "chat with us" wa.me links.
+# Fallback business number for the "chat with us" wa.me links. The
+# authoritative number lives on the owner dashboard
+# (BusinessSettings.whatsapp_number); this env var is only used when no
+# dashboard record exists yet.
 NATURALE_MAY_WHATSAPP = os.getenv(
     "NATURALE_MAY_WHATSAPP",
-    "",
-)
-
-# Owner alert channel via CallMeBot (new contact / order / appointment).
-# OWNER_WHATSAPP_NUMBER must be in international format without "+"
-# (e.g. 2348031234567). The API key is issued by CallMeBot after the
-# owner messages +34 644 51 95 23 once on WhatsApp.
-OWNER_WHATSAPP_NUMBER = os.getenv(
-    "OWNER_WHATSAPP_NUMBER",
-    "",
-)
-
-WHATSAPP_APIKEY = os.getenv(
-    "WHATSAPP_APIKEY",
     "",
 )
 
