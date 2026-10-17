@@ -206,57 +206,6 @@ else:
 
 
 # ---------------------------------------------------------
-# Email
-# ---------------------------------------------------------
-
-# Django 6.1 MAILERS configuration.
-#
-# Production should use SMTP.
-# All credentials come from environment variables.
-
-MAILERS = {
-    "default": {
-        "BACKEND": os.getenv(
-            "EMAIL_BACKEND",
-            "django.core.mail.backends.smtp.EmailBackend",
-        ),
-
-        "HOST": os.getenv(
-            "EMAIL_HOST",
-            "",
-        ),
-
-        "PORT": int(
-            os.getenv(
-                "EMAIL_PORT",
-                "587",
-            )
-        ),
-
-        "USERNAME": os.getenv(
-            "EMAIL_HOST_USER",
-            "",
-        ),
-
-        "PASSWORD": os.getenv(
-            "EMAIL_HOST_PASSWORD",
-            "",
-        ),
-
-        "USE_TLS": os.getenv(
-            "EMAIL_USE_TLS",
-            "True",
-        ).lower() == "true",
-
-        "USE_SSL": os.getenv(
-            "EMAIL_USE_SSL",
-            "False",
-        ).lower() == "true",
-    }
-}
-
-
-# ---------------------------------------------------------
 # Default email settings
 # ---------------------------------------------------------
 
@@ -331,7 +280,12 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = Path(
+    os.getenv(
+        "RAILWAY_VOLUME_MOUNT_PATH",
+        str(BASE_DIR / "media"),
+    )
+)
 
 
 # ---------------------------------------------------------
@@ -428,6 +382,10 @@ LOGOUT_REDIRECT_URL = "core:home"
 # Natural May WhatsApp
 # ---------------------------------------------------------
 
+# Fallback business number for the "chat with us" wa.me links. The
+# authoritative number lives on the owner dashboard
+# (BusinessSettings.whatsapp_number); this env var is only used when no
+# dashboard record exists yet.
 NATURALE_MAY_WHATSAPP = os.getenv(
     "NATURALE_MAY_WHATSAPP",
     "",

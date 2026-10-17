@@ -1,9 +1,7 @@
-from urllib.parse import quote
-
-from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.shortcuts import render, redirect
 
+from core.whatsapp import whatsapp_url
 from .forms import AppointmentForm
 from .models import Customer, Appointment
 
@@ -38,8 +36,6 @@ def book_appointment(request):
                         notes=form.cleaned_data["notes"],
                     )
 
-                whatsapp_number = settings.NATURAL_MAY_WHATSAPP
-
                 message = (
                     "Hello Naturale May! 👋\n\n"
                     "I have just submitted an appointment request "
@@ -56,12 +52,14 @@ def book_appointment(request):
 
                 message += "\nPlease confirm my appointment. Thank you! 🌿"
 
-                whatsapp_url = (
-                    f"https://wa.me/{whatsapp_number}"
-                    f"?text={quote(message)}"
-                )
+                url = whatsapp_url(message)
+                if url:
+                    return redirect(url)
 
-                return redirect(whatsapp_url)
+                return redirect(
+                    "appointments:success",
+                    pk=appointment.pk,
+                )
 
             except IntegrityError:
 
