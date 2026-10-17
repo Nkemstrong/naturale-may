@@ -105,6 +105,9 @@ INSTALLED_APPS = [
     "appointments",
     "contact",
     "owner",
+    
+    "cloudinary_storage",
+    "cloudinary",
 ]
 
 
@@ -337,15 +340,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-
     "staticfiles": {
-        "BACKEND":
-        "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": (
+            "whitenoise.storage."
+            "CompressedManifestStaticFilesStorage"
+        ),
     },
 }
-
 
 # ---------------------------------------------------------
 # Security settings
