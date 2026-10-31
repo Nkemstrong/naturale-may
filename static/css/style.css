@@ -2787,17 +2787,17 @@ p {
 
     .product-grid {
 
-        /* Keep the shop browsable on phones: two compact products per row. */
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* Compact catalogue view: four products per row on phones. */
+        grid-template-columns: repeat(4, minmax(0, 1fr));
 
-        gap: 14px;
+        gap: 8px;
 
     }
 
 
     .product-content {
 
-        padding: 14px 12px 16px;
+        padding: 9px 6px 10px;
 
     }
 
@@ -2811,22 +2811,18 @@ p {
 
     .product-category {
 
-        margin-bottom: 6px;
-
-        font-size: 0.58rem;
-
-        letter-spacing: 0.08em;
+        display: none;
 
     }
 
 
     .product-name {
 
-        margin-bottom: 8px;
+        margin-bottom: 6px;
 
-        font-size: 1rem;
+        font-size: 0.7rem;
 
-        line-height: 1.25;
+        line-height: 1.2;
 
     }
 
@@ -2835,7 +2831,7 @@ p {
 
         display: block;
 
-        padding-top: 10px;
+        padding-top: 6px;
 
     }
 
@@ -2844,7 +2840,7 @@ p {
 
         display: block;
 
-        font-size: 0.82rem;
+        font-size: 0.66rem;
 
         line-height: 1.35;
 
@@ -2860,22 +2856,20 @@ p {
 
     .product-link {
 
-        margin-top: 11px;
-
-        font-size: 0.72rem;
+        display: none;
 
     }
 
 
     .product-badge {
 
-        top: 8px;
+        top: 5px;
 
-        left: 8px;
+        left: 5px;
 
-        padding: 5px 7px;
+        padding: 3px 4px;
 
-        font-size: 0.52rem;
+        font-size: 0.42rem;
 
     }
 
