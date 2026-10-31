@@ -88,7 +88,13 @@
                                     <img
                                         src="{{ product.main_image.url }}"
                                         alt="{{ product.name }}"
-                                        loading="lazy"
+                                        {% if forloop.counter <= 2 %}
+                                            loading="eager"
+                                            fetchpriority="high"
+                                        {% else %}
+                                            loading="lazy"
+                                        {% endif %}
+                                        decoding="async"
                                     >
 
                                 {% else %}
@@ -203,6 +209,8 @@
             </div>
 
         {% else %}
+
+        
 
             <!-- EMPTY STATE -->
 
