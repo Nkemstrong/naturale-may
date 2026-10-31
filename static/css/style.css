@@ -2787,17 +2787,17 @@ p {
 
     .product-grid {
 
-        /* Compact catalogue view: four products per row on phones. */
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        /* Mobile catalogue view: two readable products per row. */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
 
-        gap: 8px;
+        gap: 18px;
 
     }
 
 
     .product-content {
 
-        padding: 9px 6px 10px;
+        padding: 14px 4px 18px;
 
     }
 
@@ -2820,7 +2820,7 @@ p {
 
         margin-bottom: 6px;
 
-        font-size: 0.7rem;
+        font-size: 1rem;
 
         line-height: 1.2;
 
@@ -2831,7 +2831,9 @@ p {
 
         display: block;
 
-        padding-top: 6px;
+        padding-top: 10px;
+
+        border-top: 0;
 
     }
 
@@ -2840,7 +2842,7 @@ p {
 
         display: block;
 
-        font-size: 0.66rem;
+        font-size: 0.88rem;
 
         line-height: 1.35;
 
@@ -2863,13 +2865,13 @@ p {
 
     .product-badge {
 
-        top: 5px;
+        top: 9px;
 
-        left: 5px;
+        left: 9px;
 
-        padding: 3px 4px;
+        padding: 5px 7px;
 
-        font-size: 0.42rem;
+        font-size: 0.55rem;
 
     }
 
