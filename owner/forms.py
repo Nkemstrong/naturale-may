@@ -66,6 +66,10 @@ class ServiceForm(forms.ModelForm):
             "is_active": forms.CheckboxInput(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["image"].required = False
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -214,7 +218,7 @@ class ProductImageForm(forms.ModelForm):
                 }
             ),
         }
-        
+
 class BusinessSettingsForm(forms.ModelForm):
     class Meta:
         model = BusinessSettings

@@ -7747,3 +7747,248 @@ p {
 
 }
 
+
+/* =========================================================
+   NATURALE MAY — PREMIUM SERVICE IMAGE FALLBACK
+   Warm ivory, muted sage and botanical styling
+========================================================= */
+
+/* Shared fallback foundation */
+.service-image-placeholder,
+.service-detail-placeholder.service-image-placeholder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-align: center;
+    color: #435b49;
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(174, 190, 157, 0.25),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(210, 194, 157, 0.24),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            #fbf8ef 0%,
+            #f1f0e5 48%,
+            #e8ecdf 100%
+        );
+}
+
+/* Service listing fallback */
+.service-image-placeholder {
+    width: 100%;
+    height: 340px;
+    min-height: 340px;
+    padding: 30px;
+}
+
+/* Detail page fallback */
+.service-detail-placeholder.service-image-placeholder {
+    width: 100%;
+    min-height: 550px;
+    height: 100%;
+    padding: 45px;
+}
+
+/* Inner typography and layout */
+.service-placeholder-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+}
+
+/* Brand name */
+.service-placeholder-eyebrow {
+    color: #71836c;
+    font-family: inherit;
+    font-size: 0.69rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    line-height: 1.6;
+}
+
+/* Delicate divider */
+.service-placeholder-line {
+    display: block;
+    width: 42px;
+    height: 1px;
+    margin: 23px 0;
+    background: #b39b6b;
+}
+
+/* Main fallback message */
+.service-placeholder-title {
+    display: block;
+    color: #405a47;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.65rem, 3vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+}
+
+/* Supporting text */
+.service-placeholder-caption {
+    display: block;
+    max-width: 260px;
+    margin-top: 15px;
+    color: #7b8575;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: 0.045em;
+}
+
+/* Botanical decorative artwork */
+.service-placeholder-decoration {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    width: 225px;
+    height: 225px;
+    border: 1px solid rgba(105, 128, 99, 0.18);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.service-placeholder-decoration::before,
+.service-placeholder-decoration::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(105, 128, 99, 0.18);
+    border-radius: 100% 0 100% 0;
+    transform: rotate(-35deg);
+}
+
+.service-placeholder-decoration::before {
+    width: 76px;
+    height: 125px;
+    top: 12px;
+    right: -25px;
+}
+
+.service-placeholder-decoration::after {
+    width: 65px;
+    height: 105px;
+    bottom: 10px;
+    left: -18px;
+    transform: rotate(145deg);
+}
+
+/* Subtle decorative corner accents */
+.service-image-placeholder::before,
+.service-image-placeholder::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    border-color: rgba(179, 155, 107, 0.55);
+    border-style: solid;
+    pointer-events: none;
+}
+
+.service-image-placeholder::before {
+    top: 18px;
+    left: 18px;
+    border-width: 1px 0 0 1px;
+}
+
+.service-image-placeholder::after {
+    right: 18px;
+    bottom: 18px;
+    border-width: 0 1px 1px 0;
+}
+
+/* Optional image helper text in owner form */
+.form-help-text {
+    display: block;
+    margin-top: 8px;
+    color: #788174;
+    font-size: 0.82rem;
+    line-height: 1.7;
+}
+
+/* Optional label styling */
+.form-group label span {
+    color: #8b927f;
+    font-size: 0.78rem;
+    font-weight: 400;
+}
+
+/* Tablet adjustments */
+@media (max-width: 992px) {
+    .service-image-placeholder {
+        height: 310px;
+        min-height: 310px;
+    }
+
+    .service-detail-placeholder.service-image-placeholder {
+        min-height: 460px;
+    }
+
+    .service-placeholder-decoration {
+        width: 195px;
+        height: 195px;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .service-image-placeholder {
+        height: 280px;
+        min-height: 280px;
+        padding: 24px;
+    }
+
+    .service-detail-placeholder.service-image-placeholder {
+        min-height: 350px;
+        height: 350px;
+        padding: 25px;
+    }
+
+    .service-placeholder-title {
+        font-size: 1.8rem;
+    }
+
+    .service-placeholder-caption {
+        font-size: 0.72rem;
+    }
+
+    .service-placeholder-line {
+        margin: 17px 0;
+    }
+
+    .service-placeholder-decoration {
+        width: 165px;
+        height: 165px;
+    }
+
+    .service-image-placeholder::before {
+        top: 12px;
+        left: 12px;
+    }
+
+    .service-image-placeholder::after {
+        right: 12px;
+        bottom: 12px;
+    }
+}

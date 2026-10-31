@@ -79,8 +79,31 @@
 
                     {% else %}
 
-                        <div class="service-image service-image-placeholder">
-                            <span>Natural May</span>
+                        <div
+                            class="service-image service-image-placeholder"
+                            role="img"
+                            aria-label="Naturale May branded artwork for {{ service.name }}"
+                        >
+                            <div class="service-placeholder-content">
+
+                                <span class="service-placeholder-eyebrow">
+                                    NATURALE MAY
+                                </span>
+
+                                <span class="service-placeholder-line"></span>
+
+                                <span class="service-placeholder-title">
+                                    Beauty, Naturally.
+                                </span>
+
+                                <span class="service-placeholder-caption">
+                                    Thoughtful care. Beautiful results.
+                                </span>
+
+                            </div>
+
+                            <span class="service-placeholder-decoration" aria-hidden="true"></span>
+
                         </div>
 
                     {% endif %}

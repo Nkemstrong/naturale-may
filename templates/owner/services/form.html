@@ -231,10 +231,15 @@
                 <div class="form-group">
 
                     <label for="{{ form.image.id_for_label }}">
-                        Service Image
+                        Service Image <span>(Optional)</span>
                     </label>
 
                     {{ form.image }}
+
+                    <small class="form-help-text">
+                        Upload a service photo if available. If left blank,
+                        Naturale May's branded service design will be displayed.
+                    </small>
 
                     {% if service and service.image %}
 
