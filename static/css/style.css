@@ -2795,6 +2795,14 @@ p {
     }
 
 
+    .product-image {
+
+        /* Shorter editorial crop keeps the mobile catalogue compact. */
+        aspect-ratio: 4 / 3;
+
+    }
+
+
     .product-content {
 
         padding: 14px 4px 18px;
